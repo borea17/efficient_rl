@@ -1,4 +1,4 @@
-# Efficient RL
+# Efficient Reinforcement Learning
 
 This is a Python *reimplementation* of 
 
