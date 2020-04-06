@@ -1,0 +1,393 @@
+import numpy as np
+from efficient_rl.oomdp_operations import Operations as oo_mdp_OP
+from efficient_rl.environment.oo_mdp import TaxiRelations as Rel
+from gym import utils
+from itertools import product
+
+
+class TaxiEnvironment:
+
+    """
+        taxi environment represented as a propositional OO MDP,
+        which can also be used for classical and factored representation
+
+        this class shall demonstrate in more detail how the enviroment interaction
+        is understood in an propositional OOMDP
+
+        for simplicity, a wall_list is created where x, y, position are the corresponding
+        wall attributes instead of creating several wall instances
+
+        it can also be used to create different versions of the TAXI domain
+    """
+
+    ACTION_MAPPING = {0: 'South', 1: 'North', 2: 'East', 3: 'West', 4: 'Pickup', 5: 'Dropoff'}
+    CLASSES = {'taxi': ['x', 'y'],
+               'passenger': ['x', 'y', 'in_taxi'],
+               'destination': ['x', 'y'],
+               'wall_list': ['x', 'y', 'position']}
+    # Terms is the union of all relations and additional boolean functions (passenger.in_taxi)
+    TERMS = {'touch_n(taxi, wall)': None, 'touch_s(taxi, wall)': None, 'touch_e(taxi, wall)': None,
+             'touch_w(taxi, wall)': None, 'on(taxi, passenger)': None,
+             'on(taxi, destination)': None, 'passenger.in_taxi': None}
+
+    def __init__(self, grid_size=5, mode='classical MDP'):
+        assert mode in ['classical MDP', 'factored MDP', 'OO MDP']
+        self.mode = mode
+        self.grid_size = grid_size
+        # predefined locations of passenger and destination
+        if grid_size == 5:
+            self.PREDEFINED_LOCATIONS = [(0, 4), (4, 4), (0, 0), (3, 0)]
+            self.POSITION_NAMES = ['R', 'G', 'Y', 'B']
+        elif grid_size == 10:
+            self.PREDEFINED_LOCATIONS = [(0, 1), (0, 9), (5, 9), (4, 0),
+                                         (3, 6), (6, 5), (8, 9), (9, 0)]
+            self.POSITION_NAMES = ['Y', 'R', 'G', 'B', 'W', 'M', 'C', 'P']
+        else:
+            raise NotImplementedError()
+        # objects initialization
+        objs = {}
+        for class_name in TaxiEnvironment.CLASSES:
+            current_att_dict = dict()
+            for att in TaxiEnvironment.CLASSES[class_name]:
+                current_att_dict[att] = None
+            objs[class_name] = current_att_dict
+        self.objs = objs
+
+        self.define_action_conditions()
+
+        n_predefined_locs = len(self.PREDEFINED_LOCATIONS)
+        # num_states for: taxi_x, taxi_y, passenger_loc (+1: in_taxi), destination_loc
+        self.num_states_per_var = [grid_size, grid_size, n_predefined_locs + 1, n_predefined_locs]
+        self.nS, self.nA = np.prod(self.num_states_per_var), 6
+        self.r_max = 20
+        self.x_wall, self.y_wall, self.position_wall = self.get_wall_coordinates_and_positions()
+
+        if mode == 'classical MDP':
+            self.make_state = self.make_classical_MDP_state
+        elif mode == 'factored MDP':
+            from OOMDP_Taxi.environment.factored_mdp import FactoredTaxi
+
+            self.make_state = self.make_factored_MDP_state
+            self.DBNs = FactoredTaxi.create_DBNs()
+        else:
+            self.make_state = self.make_OO_MDP_state
+            self.num_att = 7  # == len(state) see make_OO_MDP_state
+            self.oo_mdp_dict = self.create_oo_mdp_state_dict()
+            self.H_hat = self.compute_H_hat()
+        return
+
+    def cond(self):
+        """
+            returns a list where each entry defines whether the corresponding
+            entry in OOMDPTaxi.TERMS is True (1) or False (0)
+        """
+        out_list = np.empty([7])
+        out_list[0] = Rel.touch_north(self.objs['taxi'], self.objs['wall_list'])
+        out_list[1] = Rel.touch_south(self.objs['taxi'], self.objs['wall_list'])
+        out_list[2] = Rel.touch_east(self.objs['taxi'], self.objs['wall_list'])
+        out_list[3] = Rel.touch_west(self.objs['taxi'], self.objs['wall_list'])
+        out_list[4] = Rel.on(self.objs['taxi'], self.objs['passenger'])
+        out_list[5] = Rel.on(self.objs['taxi'], self.objs['destination'])
+        out_list[6] = self.objs['passenger']['in_taxi']
+        return out_list
+
+    def step(self, action_int):
+        action = TaxiEnvironment.ACTION_MAPPING[action_int]
+        reward, done = -1, False
+        current_condition = self.condition
+        if action == 'North':
+            if oo_mdp_OP.hypothesis_matches(self.north_transition_condition, current_condition):
+                self.objs['taxi']['y'] += 1
+        elif action == 'South':
+            if oo_mdp_OP.hypothesis_matches(self.south_transition_condition, current_condition):
+                self.objs['taxi']['y'] -= 1
+        elif action == 'East':
+            if oo_mdp_OP.hypothesis_matches(self.east_transition_condition, current_condition):
+                self.objs['taxi']['x'] += 1
+        elif action == 'West':
+            if oo_mdp_OP.hypothesis_matches(self.west_transition_condition, current_condition):
+                self.objs['taxi']['x'] -= 1
+        elif action == 'Pickup':
+            if oo_mdp_OP.hypothesis_matches(self.pick_up_transition_condition, current_condition):
+                self.objs['passenger']['in_taxi'] = True
+            else:
+                reward = -10
+        elif action == 'Dropoff':
+            if oo_mdp_OP.hypothesis_matches(self.drop_off_transition_condition, current_condition):
+                self.objs['passenger']['in_taxi'] = False
+                reward, done = 20, True
+            else:
+                reward = -10
+        self.score += reward
+
+        new_state = self.make_state()
+        self.s = new_state
+        return new_state, reward, done, self.score
+
+    def define_action_conditions(self):
+        nan = np.nan
+        self.north_transition_condition = np.array([False, nan, nan, nan, nan, nan, nan])
+        self.south_transition_condition = np.array([nan, False, nan, nan, nan, nan, nan])
+        self.east_transition_condition = np.array([nan, nan, False, nan, nan, nan, nan])
+        self.west_transition_condition = np.array([nan, nan, nan, False, nan, nan, nan])
+        self.pick_up_transition_condition = np.array([nan, nan, nan, nan, True, nan, False])
+        self.drop_off_transition_condition = np.array([nan, nan, nan, nan, nan, True, True])
+
+        self.north_rewardm1_condition = np.array([nan, nan, nan, nan, nan, nan, nan])
+        self.south_rewardm1_condition = np.array([nan, nan, nan, nan, nan, nan, nan])
+        self.east_rewardm1_condition = np.array([nan, nan, nan, nan, nan, nan, nan])
+        self.west_rewardm1_condition = np.array([nan, nan, nan, nan, nan, nan, nan])
+        self.pick_up_rewardm1_condition = np.array([nan, nan, nan, nan, True, nan, False])
+        self.pick_up_rewardm10_condition_a = np.array([nan, nan, nan, nan, False, nan, nan])
+        self.pick_up_rewardm10_condition_b = np.array([nan, nan, nan, nan, nan, nan, True])
+        self.drop_off_reward20_condition = np.array([nan, nan, nan, nan, True, True])
+        self.drop_off_rewardm10_condition_a = np.array([nan, nan, nan, nan, False, nan])
+        self.drop_off_rewardm10_condition_b = np.array([nan, nan, nan, nan, nan, False])
+        return
+
+    def compute_H_hat(self):
+        """
+            initial set of all possible hypotheses, i.e.,
+            2^len(cond) * 2 => all possible conditions times 2 for predicting once True, once False
+        """
+        H_hat = dict()
+        H_hat['predictions'] = np.array(2**7 * [True] + 2**7 * [False])
+        H_hat['conditions'] = np.array(2 * list(product([0, 1], repeat=7)))
+        return H_hat
+
+    def make_classical_MDP_state(self):
+        passenger_loc = (self.objs['passenger']['x'], self.objs['passenger']['y'])
+        destination_loc = (self.objs['destination']['x'], self.objs['destination']['y'])
+        if self.objs['passenger']['in_taxi']:
+            idx_pass = len(self.PREDEFINED_LOCATIONS)
+        else:
+            idx_pass = self.PREDEFINED_LOCATIONS.index(passenger_loc)
+        idx_dest = self.PREDEFINED_LOCATIONS.index(destination_loc)
+        state = self.encode(self.objs['taxi']['y'], self.objs['taxi']['x'], idx_pass, idx_dest)
+        return state
+
+    def make_factored_MDP_state(self):
+        passenger_loc = (self.objs['passenger']['x'], self.objs['passenger']['y'])
+        destination_loc = (self.objs['destination']['x'], self.objs['destination']['y'])
+        if self.objs['passenger']['in_taxi']:
+            idx_passenger = len(self.PREDEFINED_LOCATIONS)
+        else:
+            idx_passenger = self.PREDEFINED_LOCATIONS.index(passenger_loc)
+        idx_destination = self.PREDEFINED_LOCATIONS.index(destination_loc)
+        state = [self.objs['taxi']['y'], self.objs['taxi']['x'], idx_passenger, idx_destination]
+        return state
+
+    def make_OO_MDP_state(self):
+        taxi_x, taxi_y = self.objs['taxi']['x'], self.objs['taxi']['y']
+        pass_x, pass_y = self.objs['passenger']['x'], self.objs['passenger']['y']
+        dest_x, dest_y = self.objs['destination']['x'], self.objs['destination']['y']
+        in_taxi = self.objs['passenger']['in_taxi']
+
+        self.condition = self.cond()
+        state = [taxi_x, taxi_y, pass_x, pass_y, dest_x, dest_y, int(in_taxi)]
+        return (state, self.condition)
+
+    def create_oo_mdp_state_dict(self):
+        """
+            create oo_mdp_state-condition to flat_state mapping using a dictionary,
+            NOTE: - different oo_mdp_states map to the same flat_state
+        """
+        self.reset()
+
+        oo_mdp_dict = dict()
+        oo_mdp_dict['oo_mdp_to_flat_map'] = dict()
+        oo_mdp_dict['flat_to_oo_mdp_map'] = [[] for flat_state in range(self.nS)]
+
+        index = 0
+        for taxi_x in range(self.grid_size):
+            for taxi_y in range(self.grid_size):
+                self.objs['taxi']['x'], self.objs['taxi']['y'] = taxi_x, taxi_y
+                for pass_loc in self.PREDEFINED_LOCATIONS:
+                    pass_idx = self.PREDEFINED_LOCATIONS.index(pass_loc)
+                    pass_x, pass_y = pass_loc[0], pass_loc[1]
+                    self.objs['passenger']['x'], self.objs['passenger']['y'] = pass_x, pass_y
+                    for dest_loc in self.PREDEFINED_LOCATIONS:
+                        dest_idx = self.PREDEFINED_LOCATIONS.index(dest_loc)
+                        des_x, des_y = dest_loc[0], dest_loc[1]
+                        self.objs['destination']['x'], self.objs['destination']['y'] = des_x, des_y
+                        for in_taxi in [False, True]:
+                            self.objs['passenger']['in_taxi'] = in_taxi
+
+                            oo_mdp_s = [taxi_x, taxi_y, pass_x, pass_y, des_x, des_y, int(in_taxi)]
+                            oo_mdp_condition = self.cond()
+                            if in_taxi:
+                                pass_idx_ad = len(self.PREDEFINED_LOCATIONS)
+                            else:
+                                pass_idx_ad = pass_idx
+                            flat_state = self.encode(taxi_y, taxi_x, pass_idx_ad, dest_idx)
+
+                            state_cond = (oo_mdp_s, oo_mdp_condition)
+                            oo_mdp_dict['oo_mdp_to_flat_map'][tuple(oo_mdp_s)] = flat_state
+                            oo_mdp_dict['flat_to_oo_mdp_map'][flat_state].append(state_cond)
+                            index += 1
+        return oo_mdp_dict
+
+    def reset(self, SEED=None):
+        if SEED is not None:
+            np.random.seed(SEED)
+
+        grid_size = self.grid_size
+
+        # make sure that passenger and destination location differ
+        location_idx = np.arange(len(self.PREDEFINED_LOCATIONS))
+        pass_i, dest_i = np.random.choice(location_idx, size=2, replace=False)
+        pass_loc, dest_loc = self.PREDEFINED_LOCATIONS[pass_i], self.PREDEFINED_LOCATIONS[dest_i]
+        taxi_loc = (np.random.randint(0, grid_size), np.random.randint(0, grid_size))
+        x_wall, y_wall, position_wall = self.x_wall, self.y_wall, self.position_wall
+
+        self.objs['taxi']['x'], self.objs['taxi']['y'] = taxi_loc[0], taxi_loc[1]
+        self.objs['passenger']['x'], self.objs['passenger']['y'] = pass_loc[0], pass_loc[1]
+        self.objs['passenger']['in_taxi'] = False
+        self.objs['destination']['x'], self.objs['destination']['y'] = dest_loc[0], dest_loc[1]
+        self.objs['wall_list']['x'], self.objs['wall_list']['y'] = x_wall, y_wall
+        self.objs['wall_list']['position'] = position_wall
+
+        self.score = 0
+        self.s = self.make_state()
+        return self.s
+
+    def set_state(self, taxi_y, taxi_x, pass_loc, dest_idx):
+        pass_x, pass_y = self.PREDEFINED_LOCATIONS[pass_loc]
+        dest_x, dest_y = self.PREDEFINED_LOCATIONS[dest_idx]
+
+        self.reset()
+        self.objs['taxi']['x'], self.objs['taxi']['y'] = taxi_x, taxi_y
+        self.objs['passenger']['x'], self.objs['passenger']['y'] = pass_x, pass_y
+        self.objs['destination']['x'], self.objs['destination']['y'] = dest_x, dest_y
+        self.s = self.make_state()
+        return self.s
+
+    def encode(self, taxi_row, taxi_col, pass_loc, dest_idx):
+        """
+        see encode function of gym
+        num_states_per_var: (grid_size), grid_size, len(self.PREDEFINED) + 1, len(self.PREDEFINED)
+        """
+        i = taxi_row
+        i *= self.num_states_per_var[1]
+        i += taxi_col
+        i *= self.num_states_per_var[2]
+        i += pass_loc
+        i *= self.num_states_per_var[3]
+        i += dest_idx
+        return i
+
+    def get_wall_coordinates_and_positions(self):
+        grid_size = self.grid_size
+        x_wall, y_wall, position_wall = [], [], []
+        # surronding walls
+        for index in range(grid_size):
+            x_wall.append(0), y_wall.append(index), position_wall.append('left')
+            x_wall.append(grid_size - 1), y_wall.append(index), position_wall.append('right')
+            x_wall.append(index), y_wall.append(0), position_wall.append('above')
+            x_wall.append(index), y_wall.append(grid_size - 1), position_wall.append('below')
+        # inner walls
+        if grid_size == 5:
+            x_wall.append(0), y_wall.append(0), position_wall.append('right')  # 21
+            x_wall.append(0), y_wall.append(1), position_wall.append('right')  # 22
+            x_wall.append(1), y_wall.append(3), position_wall.append('right')  # 23
+            x_wall.append(1), y_wall.append(4), position_wall.append('right')  # 24
+            x_wall.append(2), y_wall.append(0), position_wall.append('right')  # 25
+            x_wall.append(2), y_wall.append(1), position_wall.append('right')  # 26
+        elif grid_size == 10:
+            x_wall.append(0), y_wall.append(0), position_wall.append('right')  # 101
+            x_wall.append(0), y_wall.append(1), position_wall.append('right')  # 102
+            x_wall.append(0), y_wall.append(2), position_wall.append('right')  # 103
+            x_wall.append(0), y_wall.append(3), position_wall.append('right')  # 104
+            x_wall.append(2), y_wall.append(6), position_wall.append('right')  # 105
+            x_wall.append(2), y_wall.append(7), position_wall.append('right')  # 106
+            x_wall.append(2), y_wall.append(8), position_wall.append('right')  # 107
+            x_wall.append(2), y_wall.append(9), position_wall.append('right')  # 108
+            x_wall.append(3), y_wall.append(0), position_wall.append('right')  # 109
+            x_wall.append(3), y_wall.append(1), position_wall.append('right')  # 110
+            x_wall.append(3), y_wall.append(2), position_wall.append('right')  # 111
+            x_wall.append(3), y_wall.append(3), position_wall.append('right')  # 112
+            x_wall.append(5), y_wall.append(4), position_wall.append('right')  # 113
+            x_wall.append(5), y_wall.append(5), position_wall.append('right')  # 114
+            x_wall.append(5), y_wall.append(6), position_wall.append('right')  # 115
+            x_wall.append(5), y_wall.append(7), position_wall.append('right')  # 116
+            x_wall.append(7), y_wall.append(0), position_wall.append('right')  # 117
+            x_wall.append(7), y_wall.append(1), position_wall.append('right')  # 118
+            x_wall.append(7), y_wall.append(2), position_wall.append('right')  # 119
+            x_wall.append(7), y_wall.append(3), position_wall.append('right')  # 120
+            x_wall.append(7), y_wall.append(6), position_wall.append('right')  # 121
+            x_wall.append(7), y_wall.append(7), position_wall.append('right')  # 122
+            x_wall.append(7), y_wall.append(8), position_wall.append('right')  # 123
+            x_wall.append(7), y_wall.append(9), position_wall.append('right')  # 124
+        else:
+            raise NotImplementedError
+
+        x_wall, y_wall, position_wall = np.array(x_wall), np.array(y_wall), np.array(position_wall)
+        return x_wall, y_wall, position_wall
+
+    def render(self):
+        """
+            very slow, should only be used for debugging
+        """
+        taxi_x, taxi_y = self.objs['taxi']['x'], self.objs['taxi']['y']
+        pass_x, pass_y = self.objs['passenger']['x'], self.objs['passenger']['y']
+        in_taxi = self.objs['passenger']['in_taxi']
+        dest_x, dest_y = self.objs['destination']['x'], self.objs['destination']['y']
+        wall_x_l, wall_y_l = self.objs['wall_list']['x'], self.objs['wall_list']['y']
+
+        out_list = []
+        out_list.append('+' + (2*self.grid_size - 1)*'-' + '+\n')
+        for row in range(self.grid_size):
+            row_string = list('|' + (self.grid_size - 1)*' :' + ' |\n')
+            for counter, loc in enumerate(self.PREDEFINED_LOCATIONS):
+                if row == loc[1]:
+                    row_string[loc[0]*2 + 1] = self.POSITION_NAMES[counter]
+            if row == taxi_y:
+                if not in_taxi:
+                    row_string[taxi_x*2 + 1] = utils.colorize(' ', 'yellow', highlight=True)
+                else:
+                    row_string[taxi_x*2 + 1] = utils.colorize(' ', 'green', highlight=True)
+            if row == pass_y and not in_taxi:
+                letter = row_string[pass_x*2 + 1]
+                row_string[pass_x*2 + 1] = utils.colorize(letter, 'blue', bold=True)
+            if row == dest_y:
+                letter = row_string[dest_x*2 + 1]
+                row_string[dest_x*2 + 1] = utils.colorize(letter, 'magenta')
+            if self.grid_size == 5:
+                for wall_obj_x, wall_obj_y in zip(wall_x_l[-6:], wall_y_l[-6:]):
+                    if row == wall_obj_y:
+                        row_string[wall_obj_x*2 + 2] = '|'
+            elif self.grid_size == 10:
+                for wall_obj_x, wall_obj_y in zip(wall_x_l[-24:], wall_y_l[-24:]):
+                    if row == wall_obj_y:
+                        row_string[wall_obj_x*2 + 2] = '|'
+            else:
+                raise NotImplementedError
+            out_list.append(''.join(row_string))
+        out_list.append('+' + (2*self.grid_size - 1)*'-' + '+\n')
+        # reverse out string to have same orientation as in paper
+        out_string = ''.join(out_list[::-1])
+        print(out_string)
+        return
+
+    def human_play(self):
+        self.reset()
+        self.set_state(3, 0, 3, 2)
+        state = self.s
+        while True:
+            self.render()
+            print('state: ', state)
+            action = input()
+            assert 0 <= int(action) <= 5
+            print('action: ', TaxiEnvironment.ACTION_MAPPING[int(action)])
+            new_state, reward, done, _ = self.step(int(action))
+            print('new state', new_state)
+            print('reward: ', reward)
+            if done:
+                break
+            state = new_state
+        return
+
+
+if __name__ == '__main__':
+    env = TaxiEnvironment(grid_size=5, mode='OO MDP')
+    env.human_play()
