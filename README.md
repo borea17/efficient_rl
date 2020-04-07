@@ -32,8 +32,8 @@ This is a Python *reimplementation* of
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|<br></td>
     <td>Q-learning</td>
-    <td>106859</td>
-    <td>&lt; 1ms</td>
+    <td align="center"><b>106859</b></td>
+    <td align="center">&lt; 1ms</td>
     <td></td>
     <td></td>
     <td></td>
@@ -41,56 +41,56 @@ This is a Python *reimplementation* of
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
     <td>Q-learning - optimistic <br>initialization</td>
-    <td>29350</td>
-    <td>&lt;1ms</td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td align="center"><b>29350</b></td>
+    <td align="center">&lt;1ms</td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
     <td><i>R</i><sub><font size="4">max</font></sub></td>
-    <td>4151</td>
-    <td>74ms</td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td align="center"><b>4151</b></td>
+    <td align="center">74ms</td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
   </tr>
   <tr>
     <td><i>R</i><sub><font size="4">max</font></sub>, DBN structure</td>
     <td>Factored <i>R</i><sub><font size="4">max</font></sub></td>
-    <td>1676</td>
-    <td>97.7ms</td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td align="center"><b>1676</b></td>
+    <td align="center">97.7ms</td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
   </tr>
   <tr>
     <td>Objects, relations to consider,<br><i>R</i><sub><font size="4">max</font></sub><br></td>
     <td>DOO<i>R</i><sub><font size="4">max</font></sub></td>
-    <td>329</td>
-    <td>48.2ms</td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td align="center"><b>329</b></td>
+    <td align="center">48.2ms</td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
   </tr>
   <tr>
     <td>|<i>A</i>|, visualization of game</td>
     <td>Humans (non-<br>videogamers)<br></td>
-    <td>101</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
+    <td align="center"><b>101</b></td>
+    <td align="center">NA</td>
+    <td align="center">NA</td>
+    <td align="center">NA</td>
+    <td align="center">NA</td>
   </tr>
   <tr>
     <td>|<i>A</i>|, visualization of game</td>
     <td>Humans (videogamers)</td>
-    <td>48.8</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
-    <td>NA</td>
+    <td align="center"><b>48.8</b></td>
+    <td align="center">NA</td>
+    <td align="center">NA</td>
+    <td align="center">NA</td>
+    <td align="center">NA</td>
   </tr>
 </table>
 
