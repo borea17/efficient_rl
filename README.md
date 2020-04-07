@@ -23,11 +23,11 @@ This is a Python *reimplementation* of
   <tr>
     <td></td>
     <td></td>
-    <td># Steps</td>
-    <td>Time/step</td>
-    <td># Steps</td>
-    <td>Time/step</td>
-    <td>Total Time</td>
+    <td><u><i># Steps</i></u></td>
+    <td><u><i>Time/step</i></u></td>
+    <td><u><i># Steps</i></u></td>
+    <td><u><i>Time/step</i></u></td>
+    <td><u><i>Total Time</i></u></td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|<br></td>
@@ -66,7 +66,7 @@ This is a Python *reimplementation* of
     <td></td>
   </tr>
   <tr>
-    <td><br>Objects, relations to consider,<br><i>R</i><sub><font size="4">max</font></sub><br></td>
+    <td>Objects, relations to consider,<br><i>R</i><sub><font size="4">max</font></sub><br></td>
     <td>DOO<i>R</i><sub><font size="4">max</font></sub></td>
     <td>329</td>
     <td>48.2ms</td>
