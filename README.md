@@ -17,7 +17,7 @@ This is a Python *reimplementation* of
   <tr>
     <th>Domain knowledge</th>
     <th>Algorithm</th>
-    <th colspan="2">Result Diuk<br></th>
+    <th colspan="2">Diuks Results<br></th>
     <th colspan="3">Reimplementation Results</th>
   </tr>
   <tr>
@@ -68,7 +68,7 @@ This is a Python *reimplementation* of
   <tr>
     <td>Objects, relations to consider,<br><i>R</i><sub><font size="4">max</font></sub><br></td>
     <td>DOO<i>R</i><sub><font size="4">max</font></sub></td>
-    <td align="center"><b>329</b></td>
+    <td align="center"><b>529</b></td>
     <td align="center">48.2ms</td>
     <td align="center"></td>
     <td align="center"></td>
