@@ -1,4 +1,4 @@
-# Efficient Reinforcement Learning
+# Efficient Reinforcement Learning [![Build Status](https://travis-ci.com/borea17/efficient_rl.svg?token=rFpzsqEK7NXyNhFzhbms&branch=master)](https://travis-ci.com/borea17/efficient_rl)
 
 This is a Python *reimplementation* of 
 
