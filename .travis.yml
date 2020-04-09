@@ -6,7 +6,7 @@ python:
     - "3.6"
 
 install:
-    - pip install gym networkx matplotlib prettytable
+    - pip install gym networkx matplotlib pandas prettytable
     - python setup.py install
 
 jobs:
