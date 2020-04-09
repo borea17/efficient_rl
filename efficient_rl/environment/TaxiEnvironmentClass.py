@@ -64,7 +64,7 @@ class TaxiEnvironment:
         if mode == 'classical MDP':
             self.make_state = self.make_classical_MDP_state
         elif mode == 'factored MDP':
-            from OOMDP_Taxi.environment.factored_mdp import FactoredTaxi
+            from efficient_rl.environment.factored_mdp import FactoredTaxi
 
             self.make_state = self.make_factored_MDP_state
             self.DBNs = FactoredTaxi.create_DBNs()
