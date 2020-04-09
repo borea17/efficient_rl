@@ -6,7 +6,7 @@ python:
     - "3.6"
 
 install:
-    - pip install gym prettytable
+    - pip install gym networkx prettytable
     - python setup.py install
 
 jobs:
