@@ -1,0 +1,19 @@
+dist: bionic
+
+language: python
+
+python:
+    - "3.6"
+
+install:
+    - pip install prettytable
+    - cd efficient_rl
+    - python setup.py install
+
+jobs:
+    include:
+        - stage: test
+          name: "Unit Tests"
+          script:
+              - cd test
+              - python -m unittest
