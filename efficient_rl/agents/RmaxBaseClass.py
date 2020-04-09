@@ -17,6 +17,11 @@ class RmaxBaseAgent(BaseAgent):
         self.initialize_Rmax_MDP()
         return
 
+    def reset(self):
+        self.value_function = np.zeros([len(self.states), 1])
+        self.initialize_Rmax_MDP()
+        return
+
     def main(self, env, max_steps=100, deterministic=False):
         # some metrics
         rewards, step_times = [], []

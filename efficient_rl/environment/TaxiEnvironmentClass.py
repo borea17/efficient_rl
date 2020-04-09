@@ -2,7 +2,6 @@ import numpy as np
 from efficient_rl.oomdp_operations import Operations as oo_mdp_OP
 from efficient_rl.environment.oo_mdp import TaxiRelations as Rel
 from gym import utils
-from itertools import product
 
 
 class TaxiEnvironment:
@@ -26,9 +25,9 @@ class TaxiEnvironment:
                'destination': ['x', 'y'],
                'wall_list': ['x', 'y', 'position']}
     # Terms is the union of all relations and additional boolean functions (passenger.in_taxi)
-    TERMS = {'touch_n(taxi, wall)': None, 'touch_s(taxi, wall)': None, 'touch_e(taxi, wall)': None,
-             'touch_w(taxi, wall)': None, 'on(taxi, passenger)': None,
-             'on(taxi, destination)': None, 'passenger.in_taxi': None}
+    TERMS = ['touch_n(taxi, wall)', 'touch_s(taxi, wall)', 'touch_e(taxi, wall)',
+             'touch_w(taxi, wall)', 'on(taxi, passenger)',
+             'on(taxi, destination)', 'passenger.in_taxi']
 
     def __init__(self, grid_size=5, mode='classical MDP'):
         assert mode in ['classical MDP', 'factored MDP', 'OO MDP']
@@ -69,32 +68,41 @@ class TaxiEnvironment:
 
             self.make_state = self.make_factored_MDP_state
             self.DBNs = FactoredTaxi.create_DBNs()
-        else:
+            self.factored_mdp_dict = self.create_factored_mdp_state_dict()
+        elif mode == 'OO MDP':
             self.make_state = self.make_OO_MDP_state
-            self.num_att = 7  # == len(state) see make_OO_MDP_state
+            self.num_atts = 7  # == len(state) see make_OO_MDP_state
             self.oo_mdp_dict = self.create_oo_mdp_state_dict()
-            self.H_hat = self.compute_H_hat()
+        else:
+            raise NotImplementedError
         return
 
     def cond(self):
         """
-            returns a list where each entry defines whether the corresponding
+            returns an array with length of TERMS where each entry defines whether the corresponding
             entry in OOMDPTaxi.TERMS is True (1) or False (0)
         """
-        out_list = np.empty([7])
-        out_list[0] = Rel.touch_north(self.objs['taxi'], self.objs['wall_list'])
-        out_list[1] = Rel.touch_south(self.objs['taxi'], self.objs['wall_list'])
-        out_list[2] = Rel.touch_east(self.objs['taxi'], self.objs['wall_list'])
-        out_list[3] = Rel.touch_west(self.objs['taxi'], self.objs['wall_list'])
-        out_list[4] = Rel.on(self.objs['taxi'], self.objs['passenger'])
-        out_list[5] = Rel.on(self.objs['taxi'], self.objs['destination'])
-        out_list[6] = self.objs['passenger']['in_taxi']
-        return out_list
+        out_array = np.zeros([len(TaxiEnvironment.TERMS)])
+
+        out_array[0] = Rel.touch_north(self.objs['taxi'], self.objs['wall_list'])
+        out_array[1] = Rel.touch_south(self.objs['taxi'], self.objs['wall_list'])
+        out_array[2] = Rel.touch_east(self.objs['taxi'], self.objs['wall_list'])
+        out_array[3] = Rel.touch_west(self.objs['taxi'], self.objs['wall_list'])
+        out_array[4] = Rel.on(self.objs['taxi'], self.objs['passenger'])
+        out_array[5] = Rel.on(self.objs['taxi'], self.objs['destination'])
+        out_array[6] = self.objs['passenger']['in_taxi']
+
+        return out_array
 
     def step(self, action_int):
         action = TaxiEnvironment.ACTION_MAPPING[action_int]
         reward, done = -1, False
-        current_condition = self.condition
+
+        if self.mode == 'OO MDP':
+            current_condition = self.condition
+        else:
+            current_condition = self.cond()
+
         if action == 'North':
             if oo_mdp_OP.hypothesis_matches(self.north_transition_condition, current_condition):
                 self.objs['taxi']['y'] += 1
@@ -115,6 +123,8 @@ class TaxiEnvironment:
         elif action == 'Dropoff':
             if oo_mdp_OP.hypothesis_matches(self.drop_off_transition_condition, current_condition):
                 self.objs['passenger']['in_taxi'] = False
+                self.objs['passenger']['x'] = self.objs['taxi']['x']
+                self.objs['passenger']['y'] = self.objs['taxi']['y']
                 reward, done = 20, True
             else:
                 reward = -10
@@ -145,16 +155,6 @@ class TaxiEnvironment:
         self.drop_off_rewardm10_condition_b = np.array([nan, nan, nan, nan, nan, False])
         return
 
-    def compute_H_hat(self):
-        """
-            initial set of all possible hypotheses, i.e.,
-            2^len(cond) * 2 => all possible conditions times 2 for predicting once True, once False
-        """
-        H_hat = dict()
-        H_hat['predictions'] = np.array(2**7 * [True] + 2**7 * [False])
-        H_hat['conditions'] = np.array(2 * list(product([0, 1], repeat=7)))
-        return H_hat
-
     def make_classical_MDP_state(self):
         passenger_loc = (self.objs['passenger']['x'], self.objs['passenger']['y'])
         destination_loc = (self.objs['destination']['x'], self.objs['destination']['y'])
@@ -178,6 +178,10 @@ class TaxiEnvironment:
         return state
 
     def make_OO_MDP_state(self):
+        """
+            for convenience a tuple (state, condition) is returned here,
+            this allows for a generic definition of the RmaxBaseClass
+        """
         taxi_x, taxi_y = self.objs['taxi']['x'], self.objs['taxi']['y']
         pass_x, pass_y = self.objs['passenger']['x'], self.objs['passenger']['y']
         dest_x, dest_y = self.objs['destination']['x'], self.objs['destination']['y']
@@ -187,44 +191,66 @@ class TaxiEnvironment:
         state = [taxi_x, taxi_y, pass_x, pass_y, dest_x, dest_y, int(in_taxi)]
         return (state, self.condition)
 
-    def create_oo_mdp_state_dict(self):
+    def create_factored_mdp_state_dict(self):
         """
-            create oo_mdp_state-condition to flat_state mapping using a dictionary,
-            NOTE: - different oo_mdp_states map to the same flat_state
+            create factored_state to flat_state and vice versa mapping using a dictionary
+            NOTE: there is a one-to-one correspondence between factored and flat state, i.e.,
+                  if passenger is in_taxi all factored states with different idx_pass_ad are equal
         """
         self.reset()
 
+        factored_mdp_dict = dict()
+        factored_mdp_dict['factored_to_flat_map'] = dict()
+        factored_mdp_dict['flat_to_factored_map'] = [[] for flat_states in range(self.nS)]
+
+        for taxi_y in range(self.grid_size):
+            for taxi_x in range(self.grid_size):
+                for idx_pass in range(len(self.PREDEFINED_LOCATIONS)):
+                    for idx_dest in range(len(self.PREDEFINED_LOCATIONS)):
+                        for in_taxi in [False, True]:
+                            if in_taxi:
+                                # all combinations of passenger locations if passenger in taxi
+                                idx_pass_ad = len(self.PREDEFINED_LOCATIONS)
+                                factored_s = self.set_state(taxi_y, taxi_x, idx_pass_ad, idx_dest,
+                                                            idx_pass)
+                            else:
+                                factored_s = self.set_state(taxi_y, taxi_x, idx_pass, idx_dest)
+
+                            factored_tup = tuple(factored_s)
+                            flat_state = self.make_classical_MDP_state()
+
+                            factored_mdp_dict['factored_to_flat_map'][factored_tup] = flat_state
+                            factored_mdp_dict['flat_to_factored_map'][flat_state] = factored_s
+        return factored_mdp_dict
+
+    def create_oo_mdp_state_dict(self):
+        """
+            create oo_mdp_state-condition to flat_state and vice versa mapping using a dictionary,
+            NOTE: - different oo_mdp_states map to the same flat_state
+        """
         oo_mdp_dict = dict()
         oo_mdp_dict['oo_mdp_to_flat_map'] = dict()
         oo_mdp_dict['flat_to_oo_mdp_map'] = [[] for flat_state in range(self.nS)]
 
-        index = 0
-        for taxi_x in range(self.grid_size):
-            for taxi_y in range(self.grid_size):
-                self.objs['taxi']['x'], self.objs['taxi']['y'] = taxi_x, taxi_y
-                for pass_loc in self.PREDEFINED_LOCATIONS:
-                    pass_idx = self.PREDEFINED_LOCATIONS.index(pass_loc)
-                    pass_x, pass_y = pass_loc[0], pass_loc[1]
-                    self.objs['passenger']['x'], self.objs['passenger']['y'] = pass_x, pass_y
-                    for dest_loc in self.PREDEFINED_LOCATIONS:
-                        dest_idx = self.PREDEFINED_LOCATIONS.index(dest_loc)
-                        des_x, des_y = dest_loc[0], dest_loc[1]
-                        self.objs['destination']['x'], self.objs['destination']['y'] = des_x, des_y
+        i_pass_in_taxi = len(self.PREDEFINED_LOCATIONS)
+
+        for taxi_y in range(self.grid_size):
+            for taxi_x in range(self.grid_size):
+                for idx_pass in range(len(self.PREDEFINED_LOCATIONS)):
+                    for idx_dest in range(len(self.PREDEFINED_LOCATIONS)):
                         for in_taxi in [False, True]:
-                            self.objs['passenger']['in_taxi'] = in_taxi
-
-                            oo_mdp_s = [taxi_x, taxi_y, pass_x, pass_y, des_x, des_y, int(in_taxi)]
-                            oo_mdp_condition = self.cond()
                             if in_taxi:
-                                pass_idx_ad = len(self.PREDEFINED_LOCATIONS)
+                                # all combinations of passenger locations if passenger in taxi
+                                state_cond = self.set_state(taxi_y, taxi_x, i_pass_in_taxi,
+                                                            idx_dest, idx_pass)
                             else:
-                                pass_idx_ad = pass_idx
-                            flat_state = self.encode(taxi_y, taxi_x, pass_idx_ad, dest_idx)
+                                state_cond = self.set_state(taxi_y, taxi_x, idx_pass, idx_dest)
 
-                            state_cond = (oo_mdp_s, oo_mdp_condition)
-                            oo_mdp_dict['oo_mdp_to_flat_map'][tuple(oo_mdp_s)] = flat_state
+                            oo_mdp_s_tuple = tuple(state_cond[0])
+                            flat_state = self.make_classical_MDP_state()
+
+                            oo_mdp_dict['oo_mdp_to_flat_map'][oo_mdp_s_tuple] = flat_state
                             oo_mdp_dict['flat_to_oo_mdp_map'][flat_state].append(state_cond)
-                            index += 1
         return oo_mdp_dict
 
     def reset(self, SEED=None):
@@ -251,11 +277,17 @@ class TaxiEnvironment:
         self.s = self.make_state()
         return self.s
 
-    def set_state(self, taxi_y, taxi_x, pass_loc, dest_idx):
-        pass_x, pass_y = self.PREDEFINED_LOCATIONS[pass_loc]
+    def set_state(self, taxi_y, taxi_x, pass_loc, dest_idx, pass_loc_in_taxi=None):
+        if pass_loc == len(self.PREDEFINED_LOCATIONS):  # passenger in_taxi
+            in_taxi = True
+            pass_x, pass_y = self.PREDEFINED_LOCATIONS[pass_loc_in_taxi]
+        else:
+            in_taxi = False
+            pass_x, pass_y = self.PREDEFINED_LOCATIONS[pass_loc]
         dest_x, dest_y = self.PREDEFINED_LOCATIONS[dest_idx]
 
         self.reset()
+        self.objs['passenger']['in_taxi'] = in_taxi
         self.objs['taxi']['x'], self.objs['taxi']['y'] = taxi_x, taxi_y
         self.objs['passenger']['x'], self.objs['passenger']['y'] = pass_x, pass_y
         self.objs['destination']['x'], self.objs['destination']['y'] = dest_x, dest_y
@@ -371,7 +403,6 @@ class TaxiEnvironment:
 
     def human_play(self):
         self.reset()
-        self.set_state(3, 0, 3, 2)
         state = self.s
         while True:
             self.render()
@@ -380,8 +411,6 @@ class TaxiEnvironment:
             assert 0 <= int(action) <= 5
             print('action: ', TaxiEnvironment.ACTION_MAPPING[int(action)])
             new_state, reward, done, _ = self.step(int(action))
-            print('new state', new_state)
-            print('reward: ', reward)
             if done:
                 break
             state = new_state
@@ -389,5 +418,9 @@ class TaxiEnvironment:
 
 
 if __name__ == '__main__':
-    env = TaxiEnvironment(grid_size=5, mode='OO MDP')
-    env.human_play()
+    # oo_env = TaxiEnvironment(grid_size=5, mode='OO MDP')
+    # print(len(oo_env.oo_mdp_dict['oo_mdp_to_flat_map']))
+    # factored_env = TaxiEnvironment(grid_size=5, mode='factored MDP')
+    # print(len(factored_env.factored_mdp_dict['factored_to_flat_map']))
+    classical_env = TaxiEnvironment(grid_size=5, mode='classical MDP')
+    classical_env.human_play()

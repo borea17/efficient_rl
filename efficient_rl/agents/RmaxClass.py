@@ -30,14 +30,12 @@ class Rmax(RmaxBaseAgent):
         # empirical distributions are already updated in add_experience
         # if either reward learner or transition learner cannot predict,
         # set distributions back to init
-        if not self.reward_learner_can_predict(state, action) and \
+        if not self.reward_learner_can_predict(state, action) or \
            not self.transition_learner_can_predict(state, action):
-            for new_state in self.states:
-                if new_state == state:
-                    self.emp_transition_dist[action, state, new_state] = 1
-                else:
-                    self.emp_transition_dist[action, state, new_state] = 0
-                self.emp_reward_dist[state, action] = self.r_max
+            transition_probs = np.zeros([len(self.states)])
+            transition_probs[state] = 1
+            self.emp_transition_dist[action, state] = transition_probs
+            self.emp_reward_dist[state, action] = self.r_max
         return
 
     def add_experience_to_reward_learner(self, state, action, reward):
@@ -71,6 +69,16 @@ class Rmax(RmaxBaseAgent):
     def predict_transition_probs(self, state, action):
         transition_probs = self.emp_transition_dist[action, state, :]
         return transition_probs
+
+    def reset(self):
+        super().reset()
+        num_states, num_actions = len(self.states), len(self.actions)
+        self.state_action_counter_r = np.zeros([num_states, num_actions])
+        self.emp_total_reward = np.zeros([num_states, num_actions])
+        self.state_action_counter_t = np.zeros([num_states, num_actions])
+        self.transition_count = np.zeros([num_actions, num_states, num_states])
+        return
+
 
 
 if __name__ == '__main__':

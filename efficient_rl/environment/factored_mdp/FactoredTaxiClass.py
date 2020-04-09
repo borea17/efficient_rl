@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 
 class FactoredTaxi:
     """
-    taxi environment as a factored MDP, see p. 37 of Diuks Dissertation
+    taxi environment as a factored MDP, see p. 37 of Diuks Dissertation,
+    extending gym
     """
 
     ACTION_MAPPING = {0: 'South', 1: 'North', 2: 'East', 3: 'West', 4: 'Pickup', 5: 'Dropoff'}
@@ -13,6 +14,8 @@ class FactoredTaxi:
     def __init__(self):
         self.env = gym.make('Taxi-v3').env
         self.DBNs = FactoredTaxi.create_DBNs()
+
+        self.factored_mdp_dict = self.create_factored_mdp_state_dict()
         return
 
     def step(self, action):
@@ -59,6 +62,38 @@ class FactoredTaxi:
     def make_flat_state(self):
         return self.env.s
 
+    def create_factored_mdp_state_dict(self):
+        """
+            create factored_state to flat_state and vice versa mapping using a dictionary
+            NOTE: there is a one-to-one correspondence between factored and flat state, i.e.,
+                  if passenger is in_taxi all factored states with different idx_pass_ad are equal
+        """
+        self.reset()
+
+        factored_mdp_dict = dict()
+        factored_mdp_dict['factored_to_flat_map'] = dict()
+        factored_mdp_dict['flat_to_factored_map'] = [[] for flat_states in range(self.env.nS)]
+
+        for taxi_y in range(5):
+            for taxi_x in range(5):
+                for idx_pass in range(len(self.env.locs)):
+                    for idx_dest in range(len(self.env.locs)):
+                        for in_taxi in [False, True]:
+                            if in_taxi:
+                                # index for passenger in taxi is len(self.env.locs)
+                                idx_pass_ad = len(self.env.locs)
+                            else:
+                                idx_pass_ad = idx_pass
+
+                            factored_s = self.encode(taxi_y, taxi_x, idx_pass_ad, idx_dest)
+
+                            factored_tup = tuple(factored_s)
+                            flat_state = self.make_flat_state()
+
+                            factored_mdp_dict['factored_to_flat_map'][factored_tup] = flat_state
+                            factored_mdp_dict['flat_to_factored_map'][flat_state] = factored_s
+        return factored_mdp_dict
+
     @staticmethod
     def create_DBNs():
         DBNs = dict()
@@ -77,7 +112,7 @@ class FactoredTaxi:
         dependencies_east = [[0], [0, 1], [2], [3]]
         dependencies_west = [[0], [0, 1], [2], [3]]
         dependencies_pickup = [[0], [1], [0, 1, 2], [3]]
-        # dependencies_dropoff = [[0], [1], [0, 1, 2], [3]]  # gym drop off dependency
+        # dropoff changes pass_loc, iff pass_loc = in_taxi and [taxi_x, taxi_y] => dest_loc
         dependencies_dropoff = [[0], [1], [0, 1, 2, 3], [3]]  # Diuk drop off dependency
         dependencies = [dependencies_south, dependencies_north, dependencies_east,
                         dependencies_west, dependencies_pickup, dependencies_dropoff]
@@ -101,7 +136,7 @@ class FactoredTaxi:
         dependencies_north = [0]
         dependencies_east = [0]
         dependencies_west = [0]
-        dependencies_pickup = [0, 1, 2, 3]
+        dependencies_pickup = [0, 1, 2]
         dependencies_dropoff = [0, 1, 2, 3]
         dependencies = [dependencies_south, dependencies_north, dependencies_east,
                         dependencies_west, dependencies_pickup, dependencies_dropoff]

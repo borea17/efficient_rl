@@ -22,7 +22,7 @@ class ClassicalTaxi(taxi.TaxiEnv):
                 if self.locs.index((taxi_row, taxi_col)) != dest_loc:
                     # illegal dropoff action following Diuk
                     new_state = self.s
-                    reward = - 10
+                    reward = -10
                     done = False
                     info = None
                     self.lastaction = 5
@@ -39,6 +39,7 @@ class ClassicalTaxi(taxi.TaxiEnv):
             self.render()
             action = input()
             new_state, reward, done, _ = self.step(int(action))
+            print(reward)
             if done:
                 break
         return

@@ -3,7 +3,7 @@ from efficient_rl.agents import Rmax, FactoredRmax, QLearning
 from efficient_rl.environment import TaxiEnvironment
 import numpy as np
 
-grid_size = 5
+grid_size = 10
 max_episodes = 5000
 max_steps = 100
 
@@ -25,7 +25,7 @@ agents = [Rmax(M=1, num_states=envs[0].nS, num_actions=envs[0].nA, gamma=0.95, r
 
 statistics = {}
 
-index = 1
+index = 0
 # for agent, env, agent_name in zip(agents, envs, agent_names):
 for agent, env, agent_name in zip([agents[index]], [envs[index]], [agent_names[index]]):
     print('Start Agent: ', agent_name)
