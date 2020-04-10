@@ -11,7 +11,20 @@ If you are interested in the results, you can directly jump to the [Results](htt
 
 ### TL;DR
 
+#### Motivation
 
+It is a well known empirical fact in reinforcement learning that model-based approaches (e.g., <i>R</i><sub><font size="4">max</font></sub>) are more sample-efficient than model-free algorithms (e.g., <i>Q-learning</i>). One of the main reasons may be that model-based learning tackles the exploration-exploitation dilemma in a smarter way by using the accumulated experience to build an approximate model of the environment. Furthermore, it has also been shown that rich state representations such as in a *factored MDP* can make model-based learning even more sample-efficient. *Factored MDP*s enable an effective parametrization of transition and reward dynamics by using *dynamic Bayesian networks* (DBNs) to represent partial dependency relations between variables, e.g., in the taxi domain action 
+
+
+In this work, Diuk et al.   
+
+As it turns out, humans 
+
+#### Summary
+
+
+- adaptations to state-of-the-art Rmax (model based) -> provably efficient algorithm to surpass exploration-exploitation dilemma 
+- role of state representations (factored Rmax)
 
 ### How to use this repository
 
