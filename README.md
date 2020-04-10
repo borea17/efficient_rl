@@ -47,9 +47,6 @@ In this reimplementation also the reward function is learned. Furthermore, Diuk 
 
 In this reimplementation, only the dissertation representation is implemented.
 
-For reproduction of the results use `dissertation_script.py` and `paper_script.py`.
-
-
 ### Dissertation (see p.49)
 
 <table>
