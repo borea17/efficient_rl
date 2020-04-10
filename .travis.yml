@@ -16,3 +16,8 @@ jobs:
           script:
               - cd test
               - python -m unittest
+        - stage: reproducible research
+          name: "Reproduce disseration results"
+          script:
+              - cd efficient_rl
+              - python disseration_script.py

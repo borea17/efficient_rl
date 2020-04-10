@@ -1,5 +1,5 @@
 import numpy as np
-from efficient_rl.oomdp_operations import Operations as oo_mdp_OP
+from efficient_rl.oo_mdp_operations import Operations as oo_mdp_OP
 from efficient_rl.environment.oo_mdp import TaxiRelations as Rel
 from gym import utils
 

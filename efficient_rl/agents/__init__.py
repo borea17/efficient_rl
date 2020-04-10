@@ -1,4 +1,4 @@
-import efficient_rl.agents.oomdp_learner
+import efficient_rl.agents.oo_mdp_learner
 from efficient_rl.agents.BaseAgentClass import BaseAgent
 from efficient_rl.agents.RmaxBaseClass import RmaxBaseAgent
 from efficient_rl.agents.RmaxClass import Rmax

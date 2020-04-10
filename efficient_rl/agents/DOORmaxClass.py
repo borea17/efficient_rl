@@ -1,9 +1,8 @@
 from efficient_rl.agents import RmaxBaseAgent
-from efficient_rl.agents.oomdp_learner import CELearner, CRLearner
-from efficient_rl.oomdp_operations import Operations as oo_mdp_OP
+from efficient_rl.agents.oo_mdp_learner import CELearner, CRLearner
+from efficient_rl.oo_mdp_operations import Operations as oo_mdp_OP
 import itertools
 import numpy as np
-import time
 
 
 class DOORmax(RmaxBaseAgent):

@@ -1,3 +1,3 @@
 import efficient_rl.environment
 import efficient_rl.agents
-import efficient_rl.oomdp_operations
+import efficient_rl.oo_mdp_operations

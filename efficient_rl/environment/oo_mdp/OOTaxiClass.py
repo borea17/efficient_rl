@@ -34,6 +34,8 @@ class OOTaxi:
             OOTaxi.state_list([3], [3], range(5), range(4)) + \
             OOTaxi.state_list([4], [3], range(5), range(4))
         self.passenger_in_taxi_states = OOTaxi.state_list(range(5), range(5), [4], range(4))
+
+        self.num_atts = 7  # see state in convert_gym_state_into_OO_MDP_state()
         self.oo_mdp_dict = self.create_oo_mdp_state_dict()
         return
 

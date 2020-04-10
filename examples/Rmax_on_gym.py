@@ -1,16 +1,15 @@
-from OOMDP_Taxi.agents import Rmax, QLearning
-from OOMDP_Taxi.environment import TaxiEnvironment
+import gym
+import numpy as np
+from efficient_rl.agents import Rmax
 
 
-env = TaxiEnvironment(grid_size=10, mode='classical MDP')
-print(env.grid_size)
-# agent = QLearning(num_states=env.nS, num_actions=env.nA, gamma=0.95, alpha=1, epsilon=0,
-#                   optimistic_init=True, r_max=20)
+env = gym.make('Taxi-v3').env
+agent = Rmax(M=1, num_states=env.nS, num_actions=env.nA, gamma=0.95, r_max=20, delta=0.01,
+             env_name='gym-Taxi')
 
 
-agent = QLearning(num_states=env.nS, num_actions=env.nA, gamma=0.95, alpha=0.1, epsilon=0.01,
-                  optimistic_init=False)  # alpha, epsilon p.33/34 Diuks Dissertation
+all_rewards, all_step_times = agent.train(env, max_episodes=1200, max_steps=100)
+print("Avg Step Time: {}, Total Num Steps: {}, Total Time: {}".format(np.mean(all_step_times),
+                                                                      len(all_step_times),
+                                                                      sum(all_step_times)))
 
-# agent = Rmax(num_states=env.nS, num_actions=env.nA, gamma=0.95, M=1, max_reward=20)
-
-all_rewards, all_step_times = agent.train(env, num_episodes=int(10e4))

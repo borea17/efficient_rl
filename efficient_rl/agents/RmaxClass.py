@@ -78,19 +78,3 @@ class Rmax(RmaxBaseAgent):
         self.state_action_counter_t = np.zeros([num_states, num_actions])
         self.transition_count = np.zeros([num_actions, num_states, num_states])
         return
-
-
-
-if __name__ == '__main__':
-    import gym
-
-    env = gym.make('Taxi-v3').env
-    num_episodes, max_steps = 10000, 100
-
-    agent = Rmax(M=1, num_states=500, num_actions=env.action_space.n, gamma=0.95,
-                 max_reward=20, delta=0.01)
-    agent.train(env, 50, 100, True)
-    # all_rewards, _ = agent.train(env, num_episodes=num_episodes, max_steps=max_steps)
-    # print(all_rewards)
-    # Rmax.plot_rewards(all_rewards, env, N=100)
-    # print('Best average reward {}'.format(max(all_rewards)))

@@ -1,4 +1,4 @@
-from efficient_rl.oomdp_operations import Operations as oo_mdp_OP
+from efficient_rl.oo_mdp_operations import Operations as oo_mdp_OP
 
 
 class CRLearner:
