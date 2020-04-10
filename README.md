@@ -69,7 +69,7 @@ This is a Python *reimplementation* of
     <td align="center"></td>
   </tr>
   <tr>
-    <td>Objects, relations to consider,<br><i>R</i><sub><font size="4">max</font></sub><br></td>
+    <td>Objects, relations to consider,<br><i>R</i><sub><font size="4">max</font></sub></td>
     <td>DOO<i>R</i><sub><font size="4">max</font></sub></td>
     <td align="center"><b>529</b></td>
     <td align="center">48.2ms</td>
@@ -98,3 +98,91 @@ This is a Python *reimplementation* of
 </table>
 
 ### Paper
+
+<table>
+  <tr>
+    <th></th>
+    <th colspan="3">Diuks Result</th>
+    <th colspan="3">Reimplementation Results</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td><i>Taxi 5x5 </i></td>
+    <td><i>Taxi 10x10</i></td>
+    <td><i>Ratio</i></td>
+    <td><i>Taxi 5x5</i><br></td>
+    <td><i>Taxi 10x10</i></td>
+    <td><i>Ratio</i></td>
+  </tr>
+  <tr>
+    <td>Number of states</td>
+    <td align="center">500</td>
+    <td align="center" >7200</td>
+    <td align="center">14.40</td>
+    <td align="center">500</td>
+    <td align="center">7200</td>
+    <td align="center">14.40</td>
+  </tr>
+  <tr>
+    <td>Q-learning<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# steps<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time per step</td>
+    <td align="center">
+      &nbsp;<br>NA<br>&nbsp;
+    </td>
+    <td align="center">
+      &nbsp;<br>NA<br>&nbsp;</td>
+    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
+    <td align="center"></td>
+    <td align="center"></td>
+    <td align="center"></td>
+  </tr>
+  <tr>
+    <td>Q-learning - optimistic initialization<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# steps<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time per step</td>
+    </td>
+    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
+    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
+    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><i>R</i><sub><font size="4">max</font></sub><br> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# steps<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time per step</td>
+     </td>
+    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
+    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
+    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Factored <i>R</i><sub><font size="4">max</font></sub><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# steps<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time per step</td>
+    </td>
+    <td align="center">&nbsp;<br>1676<br>43.59ms</td>
+    <td align="center">&nbsp;<br>19866<br>306.71ms</td>
+    <td align="center">&nbsp;<br>11.85<br>7.03</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>DOO<i>R</i><sub><font size="4">max</font></sub><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# steps<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time per step</td>
+    </td>
+    <td align="center">&nbsp;<br>529<br>13.88ms</td>
+    <td align="center">&nbsp;<br>821<br>293.72ms</td>
+    <td align="center">&nbsp;<br>1.55<br>21.16</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
