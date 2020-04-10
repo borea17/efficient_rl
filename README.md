@@ -12,7 +12,23 @@ Currently, only the taxi domain is implemented and tested. However, the algorith
 ### TL;DR
 
 
+### How to use this repository
 
+In order to use this repositoy, clone it and run the following command in the directoy of the repository
+```python
+python3 setup.py install
+```
+To reproduce the results go into `efficient_rl` folder and run 
+```python
+python3 dissertation_script.py
+```
+or
+```python
+python3 paper_script.py
+```
+Defaultly, each agent runs only once. To increase the number of repetitions change `n_repetitions` in the scripts. 
+
+If you want to use this repository to play a different game, you may want to look at (). Contributions are welcome and if needed, I will provide a more detailed documentation.
 
 ## Results
 
