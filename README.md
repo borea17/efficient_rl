@@ -7,6 +7,8 @@ This is a Python *reimplementation* of
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuks Dissertation)
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/OORL.pdf) (Paper by C. Diuk et al.)
 
+Currently, only the taxi domain is implemented and tested. However, the algorithms are designed to be applicable to other domains as well. (see ..)
+
 ### TL;DR
 
 
