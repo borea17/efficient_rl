@@ -22,9 +22,10 @@ It should be noted that Diuk mainly focused on learning the transition model:
 In this reimplementation also the reward function is learned. Furthermore, Diuk uses a slightly different factored state representation in the paper as in the dissertation:
 
 |         | Dissertation                         | Paper                         |
-|:--------|--------------------------------------|-------------------------------|
-| factored state | `[taxi_x, taxi_y, pass_idx, dest_idx]` | `[taxi_x, taxi_y, in_taxi, at_dest]` |
+|:--------|:------------------------------------:|:-----------------------------:|
+| factored state | `[taxi_x, taxi_y, pass_i, dest_i]` | `[taxi_x, taxi_y, in_taxi, at_dest]` |
 | reference      | p.37                                 | p.7                                       |
+
 In this reimplementation, only the dissertation representation is implemented.
 
 For reproduction of the results use `dissertation_script.py` and `paper_script.py`.
