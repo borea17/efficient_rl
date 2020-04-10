@@ -7,7 +7,7 @@ This is a Python *reimplementation* of
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuks Dissertation)
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/OORL.pdf) (Paper by C. Diuk et al.)
 
-If you are interested in the results, you can directly jump to the [results section](https://github.com/borea17/efficient_rl#results). If you haven't read the dissertation or paper, I can definetly recommend them. However, I will give a short motivation and summary in [TL; DR](https://github.com/borea17/efficient_rl#tldr). If you want to use this repository to reproduce the results or adapt it to for your own research, there is a short introduction in [How to use this repository](https://github.com/borea17/efficient_rl#how-to-use-this-repository).
+If you are interested in the results, you can directly jump to the [Results](https://github.com/borea17/efficient_rl#results). If you haven't read the dissertation or paper, I can definetly recommend them. However, I will give a short motivation and summary in [TL; DR](https://github.com/borea17/efficient_rl#tldr). If you want to use this repository to reproduce the results or adapt it to for your own research, there is a short introduction in [How to use this repository](https://github.com/borea17/efficient_rl#how-to-use-this-repository).
 
 ### TL;DR
 
