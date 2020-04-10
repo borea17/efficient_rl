@@ -14,6 +14,8 @@ This is a Python *reimplementation* of
 
 ## Results
 
+
+
 ### Dissertation (see p.49)
 
 <table>
@@ -97,7 +99,7 @@ This is a Python *reimplementation* of
   </tr>
 </table>
 
-### Paper
+### Paper (see p.7)
 
 <table>
   <tr>
