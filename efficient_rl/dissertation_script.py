@@ -8,7 +8,7 @@ from efficient_rl.environment.oo_mdp import OOTaxi
 
 max_episodes = 5000
 max_steps = 100
-n_repetitions = 1
+n_repetitions = 100
 
 agent_names = ['Rmax', 'Factored Rmax', 'DOORmax', 'Q Learning',
                'Q Learning optimistic initalization']
