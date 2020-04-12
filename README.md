@@ -7,18 +7,52 @@ This is a Python *reimplementation* of
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuks Dissertation)
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/OORL.pdf) (Paper by C. Diuk et al.)
 
-If you are interested in the results, you can directly jump to the [Results](https://github.com/borea17/efficient_rl#results). If you haven't read the dissertation or paper, I can definetly recommend them. However, I will give a short motivation and summary in [TL; DR](https://github.com/borea17/efficient_rl#tldr). If you want to use this repository to reproduce the results or adapt it to for your own research, there is a short introduction in [How to use this repository](https://github.com/borea17/efficient_rl#how-to-use-this-repository).
+If you are only interested in the results, you can directly jump to the
+[Results](https://github.com/borea17/efficient_rl#results). If you
+haven't read the dissertation or paper, I can definetly recommend
+them. However, I will give a short motivation and summary in [TL;
+DR](https://github.com/borea17/efficient_rl#tldr). If you want to use
+this repository to reproduce the results or adapt it to for your own
+research, there is a short introduction in [How to use this
+repository](https://github.com/borea17/efficient_rl#how-to-use-this-repository). 
 
 ### TL;DR
 
 #### Motivation
 
-It is a well known empirical fact in reinforcement learning that model-based approaches (e.g., <i>R</i><sub><font size="4">max</font></sub>) are more sample-efficient than model-free algorithms (e.g., <i>Q-learning</i>). One of the main reasons may be that model-based learning tackles the exploration-exploitation dilemma in a smarter way by using the accumulated experience to build an approximate model of the environment. Furthermore, it has also been shown that rich state representations such as in a *factored MDP* can make model-based learning even more sample-efficient. *Factored MDP*s enable an effective parametrization of transition and reward dynamics by using *dynamic Bayesian networks* (DBNs) to represent partial dependency relations between variables, e.g., in the taxi domain action 
+It is a well known empirical fact in reinforcement learning that
+model-based approaches (e.g., <i>R</i><sub><font
+size="4">max</font></sub>) are more sample-efficient than model-free
+algorithms (e.g., <i>Q-learning</i>). One of the main reasons may be
+that model-based learning tackles the exploration-exploitation dilemma
+in a smarter way by using the accumulated experience to build an
+approximate model of the environment. Furthermore, it has also been
+shown that rich state representations such as in a *factored MDP* can
+make model-based learning even more sample-efficient. *Factored MDP*s
+enable an effective parametrization of transition and reward dynamics
+by using *dynamic Bayesian networks* (DBNs) to represent partial
+dependency relations between state variables, thereby the environment dynamics
+can be learned with less samples. A major downside of these approaches
+is that the DBNs need to be provided as prior knowledge which might be
+impossible sometimes.
 
+Motivated by human intelligence, Diuk et al. introduce a new
+framework *propositional object-oriented MDPs* (OO-MDPs) to model
+environments and their dynamics. As it turns out, humans are way more
+sample efficient than state-of-the-art algorithms when playing games 
+such as taxi (Diuk actually performed an experiment). Diuk argues that 
+humans must use some prior knowledge when playing this game, he
+further speculates that this knowledge might come in form of object
+represetations, e.g., identifying horizontal lines as *walls* when 
+observing that the taxi cannot move through them. 
 
-In this work, Diuk et al.   
-
-As it turns out, humans 
+Diuk et al. also provide a learning algorithm for deterministic
+OO-MDPs (<i>DOOR</i><sub><font size="4">max</font></sub>) which
+outperforms *factored* <i>R</i><sub><font size="4">max</font></sub>.
+As prior knowledge <i>DOOR</i><sub><font size="4">max</font></sub>
+needs the objects and relations to consider, which seems more natural
+as these may also be used throughout different games. Furthermore,
+this approach may also be used to inherit human biases. 
 
 #### Summary
 
