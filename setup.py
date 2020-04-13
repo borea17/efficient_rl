@@ -1,13 +1,22 @@
 from distutils.core import setup
 from setuptools import find_packages
 
+INSTALL_REQUIRES = [
+    'numpy',
+    'pandas',
+    'networkx',
+    'gym',
+    'matplotlib',
+    'prettytable'
+]
+
 setup(
     name='efficient_rl',
-    packages=find_packages(),
     version='1.0',
-    description='Reimplementation of Diuks "object-oriented representation for efficient reinforcement learning".',
+    description='Reimplementation of Diuks "object-oriented representation for efficient RL".',
     author='Markus Borea',
     author_emal='borea17@protonmail.com',
     keywords=['Reinforcement Learning', 'Efficient RL', 'OO-MDP'],
-    classifiers=[],
+    install_requires=INSTALL_REQUIRES,
+    packages=find_packages(),
 )

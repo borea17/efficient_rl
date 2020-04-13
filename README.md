@@ -80,19 +80,17 @@ If you want to use this repository to play a different game, you may want to loo
 
 ## Results
 
-The experimental setup is described on p.31 of Diuks Dissertation. It consists of testing against six probe states and reporting the number of steps the agent had to take until the optimal policy for these 6 start states was reached. Since there is some randomness in the trials, each algorithm runs 100 (`n_repetitions`) times and the results are then averaged.
+The experimental setup is described on p.31 of Diuks Dissertation. It
+consists of testing against six probe states and reporting the number
+of steps the agent had to take until the optimal policy for these 6
+start states was reached. Since there is some randomness in the
+trials, each algorithm runs 100 (`n_repetitions`) times and the
+results are then averaged. 
 
 It should be noted that Diuk mainly focused on learning the transition model:
 > I will focus on learning dynamics and assume the reward function is available as a black box function (p.61 Diss)
 
-In this reimplementation also the reward function is learned. Furthermore, Diuk uses a slightly different factored state representation in the paper as in the dissertation:
-
-|         | Dissertation                         | Paper                         |
-|:--------|:------------------------------------:|:-----------------------------:|
-| factored state | `[taxi_x, taxi_y, pass_i, dest_i]` | `[taxi_x, taxi_y, in_taxi, at_dest]` |
-| reference      | p.37                                 | p.7                                       |
-
-In this reimplementation, only the dissertation representation is implemented.
+In this reimplementation also the reward function is learned.
 
 ### Dissertation (see p.49)
 
