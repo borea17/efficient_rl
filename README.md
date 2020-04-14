@@ -69,10 +69,9 @@ basis for the (maybe even more famous) [DQN paper](https://arxiv.org/abs/1312.56
 
 ###### Q-learning
 
-Q-learning aims to approximate the optimal action-value function
-(*Q<sup><font size="4">*</font></sup>(s, a)*) from which the optimal
-policy can be inferred. In the simplest case, a *Q-table* is used as a
-function approximator. 
+Q-learning aims to approximate the optimal action-value function 
+from which the optimal policy can be inferred. In the simplest case, 
+a table (*Q-table*) is used as a function approximator. 
 
 The basic idea is to start with a random action-value function and
 then iteratively update this function towards the optimal action-value
@@ -80,8 +79,9 @@ function. The update comes after each action *a* with the observed
 reward *r* and new state *s<sup>'</sup>*, the update rule is very
 simple and is derived from Bellman's optimality equation:
 
-![\displaystyle Q(s,a)\leftarrow (1-\alpha) Q(s,a) + \alpha\left\[r + \gamma \max_{a^{'}} Q(s^{'}, a^{'})\right\]](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle%20Q(s%2Ca)%5Cleftarrow%20(1-%5Calpha)%20Q(s%2Ca)%20%2B%20%5Calpha%5Cleft%5Br%20%2B%20%5Cgamma%20%5Cmax_%7Ba%5E%7B'%7D%7D%20Q(s%5E%7B'%7D%2C%20a%5E%7B'%7D)%5Cright%5D)
-
+|![\displaystyle Q(s,a)\leftarrow (1-\alpha) Q(s,a) + \alpha\left\[r + \gamma \max_{a^{'}} Q(s^{'}, a^{'})\right\]](https://render.githubusercontent.com/render/math?math=%5Cdisplaystyle%20Q(s%2Ca)%5Cleftarrow%20(1-%5Calpha)%20Q(s%2Ca)%20%2B%20%5Calpha%5Cleft%5Br%20%2B%20%5Cgamma%20%5Cmax_%7Ba%5E%7B'%7D%7D%20Q(s%5E%7B'%7D%2C%20a%5E%7B'%7D)%5Cright%5D)|
+|:---:|
+  
 where &alpha; is the learning rate. To allow for exploration,
 Q-learning commonly uses *&epsi;-greedy exploration* or the *Greedy
 in the Limit with Infinite Exploration* approach (see [David Silver,
@@ -90,7 +90,7 @@ ff](https://www.davidsilver.uk/wp-content/uploads/2020/03/control.pdf)).
 
 Diuk uses two variants of Q-learning:
 * **Q-learning**: standard Q-learning approach with epsilon greedy
-  exploration where parameters &alpha;=0.1 and $epsi;=0.6 have been
+  exploration where parameters &alpha;=0.1 and &epsi;=0.6 have been
   found via parameter search.
 * **Q-learning with optimistic initialization**: instead of a some
   random initialization of the Q-table a smart initialization to an
@@ -99,7 +99,7 @@ Diuk uses two variants of Q-learning:
   src="https://render.githubusercontent.com/render/math?math=v_{max}=\displaystyle\frac{r_{max}}{1-\gamma}">)
   is used. Thereby unvisited state-action pairs become more like to be
   visited. Here, &alpha; was set to 1 (deterministic environment) and
-  ;epsi to 0 (exploration ensured via initialization).
+  &epsi; to 0 (exploration ensured via initialization).
 
 ##### Model-based Approaches 
 
