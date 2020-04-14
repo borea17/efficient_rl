@@ -116,26 +116,15 @@ accurate transition/reward function) and *unknown*. Whenever a state
 is *known*, the algorithm uses the empiriical transition and reward
 function for planning. In case a state is *unknown*,  R<sub><font
 size="4">max</font></sub> assumes a transition to a fictious state
-from which maximum reward can be obtained (hence the name) and it uses
-that for planning. Therefore, actions which have not been tried out in
-the actual state will be preferred unless the *known* action also leads
-to maximal return. The parameter *M* defines the number of
+from which maximum reward can be obtained consistently (hence the name) and it uses
+that for planning. Therefore, actions which have not been tried out
+(often enough) in the actual state will be preferred unless the
+*known* action also leads to maximal return. The parameter *M* defines the number of
 observations the agent has to see until it considers a
 transition/reward to be known, in a deterministic case such as the
 taxi domain, it can be set to 1. R<sub><font size="4">max</font></sub>
 is guaranteed to find a near-optimal action-value function in
 polynomial time.
-
-Pseudocode which slightly differs from Diuk's dissertation (see p.),
-but has been used for this reimplementation (since it could be used
-for all three R_max approaches and is considered to have lower
-computational time complexity) is given below:
-
-```
-**func** R<sub><font size="4">max</font></sub>
-    **for all** timesteps t=1,2,3,... **do***
-        
-```
 
 ##### Factored R<sub><font size="4">max</font></sub>
 

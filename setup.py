@@ -19,4 +19,9 @@ setup(
     keywords=['Reinforcement Learning', 'Efficient RL', 'OO-MDP'],
     install_requires=INSTALL_REQUIRES,
     packages=find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
 )

@@ -103,7 +103,14 @@ class OOTaxi:
         return (state, self.condition)
 
     def reset(self):
-        self.env.reset()
+        """
+            in gym reset, passenger location and destination location are never the same,
+            in original of Diettrich this is possible
+        """
+        taxi_row, taxi_colum = np.random.randint(5), np.random.randint(5)
+        pass_loc = np.random.randint(4)
+        dest_loc = np.random.randint(4)
+        self.env.s = self.env.encode(taxi_row, taxi_colum, pass_loc, dest_loc)
         self.s = self.convert_gym_state_into_OO_MDP_state()
         return self.s
 

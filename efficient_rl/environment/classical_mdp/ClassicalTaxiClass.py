@@ -1,4 +1,5 @@
 from gym.envs.toy_text import taxi
+import numpy as np
 
 
 class ClassicalTaxi(taxi.TaxiEnv):
@@ -32,6 +33,17 @@ class ClassicalTaxi(taxi.TaxiEnv):
         else:
             new_state, reward, done, info = super().step(action)
         return new_state, reward, done, info
+
+    def reset(self):
+        """
+            in gym reset, passenger location and destination location are never the same,
+            in original of Diettrich this is possible
+        """
+        taxi_row, taxi_colum = np.random.randint(5), np.random.randint(5)
+        pass_loc = np.random.randint(4)
+        dest_loc = np.random.randint(4)
+        self.s = self.encode(taxi_row, taxi_colum, pass_loc, dest_loc)
+        return self.s
 
     def human_play(self):
         self.reset()
