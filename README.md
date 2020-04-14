@@ -90,7 +90,7 @@ Diuk uses two variants of Q-learning:
   random initialization of the Q-table a smart initialization to an
   optimistic value (maximum possible value of any state action pair 
   <img
-  src="https://render.githubusercontent.com/render/math?math=v_{max}=\displaystyle\frac{r_{max}}{1-\gamma}">)
+  src="https://render.githubusercontent.com/render/math?math=v_{max}">)
   is used. Thereby unvisited state-action pairs become more like to be
   visited. Here, &alpha; was set to 1 (deterministic environment) and
   &epsi; to 0 (exploration ensured via initialization).
@@ -107,7 +107,35 @@ environment dynamics.
 
 ##### R<sub><font size="4">max</font></sub>
 
+R<sub><font size="4">max</font></sub> is a provably efficient
+state-of-the-art algorithm to surpass the exploration-exploitation
+dilemma through an intuitive approach: R<sub><font
+size="4">max</font></sub> basically divides state-action pairs into *known*
+(state-action pairs which have been visited often enough to build an
+accurate transition/reward function) and *unknown*. Whenever a state
+is *known*, the algorithm uses the empiriical transition and reward
+function for planning. In case a state is *unknown*,  R<sub><font
+size="4">max</font></sub> assumes a transition to a fictious state
+from which maximum reward can be obtained (hence the name) and it uses
+that for planning. Therefore, actions which have not been tried out in
+the actual state will be preferred unless the *known* action also leads
+to maximal return. The parameter *M* defines the number of
+observations the agent has to see until it considers a
+transition/reward to be known, in a deterministic case such as the
+taxi domain, it can be set to 1. R<sub><font size="4">max</font></sub>
+is guaranteed to find a near-optimal action-value function in
+polynomial time.
 
+Pseudocode which slightly differs from Diuk's dissertation (see p.),
+but has been used for this reimplementation (since it could be used
+for all three R_max approaches and is considered to have lower
+computational time complexity) is given below:
+
+```
+**func** R<sub><font size="4">max</font></sub>
+    **for all** timesteps t=1,2,3,... **do***
+        
+```
 
 ##### Factored R<sub><font size="4">max</font></sub>
 
