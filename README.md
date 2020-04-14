@@ -26,7 +26,7 @@ size="4">max</font></sub>) are more sample-efficient than model-free
 algorithms (e.g., <i>Q-learning</i>). One of the main reasons may be
 that model-based learning tackles the exploration-exploitation dilemma
 in a smarter way by using the accumulated experience to build an
-approximate model of the environment. Furthermore, it has also been
+approximate model of the environment. Furthermore, it has been
 shown that rich state representations such as in a *factored MDP* can
 make model-based learning even more sample-efficient. *Factored MDP*s
 enable an effective parametrization of transition and reward dynamics
@@ -39,14 +39,14 @@ impossible sometimes.
 Motivated by human intelligence, Diuk et al. introduce a new
 framework *propositional object-oriented MDPs* (OO-MDPs) to model
 environments and their dynamics. As it turns out, humans are way more
-sample efficient than state-of-the-art algorithms when playing games 
+sample-efficient than state-of-the-art algorithms when playing games 
 such as taxi (Diuk actually performed an experiment). Diuk argues that 
 humans must use some prior knowledge when playing this game, he
 further speculates that this knowledge might come in form of object
 represetations, e.g., identifying horizontal lines as *walls* when 
 observing that the taxi cannot move through them. 
 
-Diuk et al. also provide a learning algorithm for deterministic
+Diuk et al. provide a learning algorithm for deterministic
 OO-MDPs (<i>DOOR</i><sub><font size="4">max</font></sub>) which
 outperforms *factored* <i>R</i><sub><font size="4">max</font></sub>.
 As prior knowledge <i>DOOR</i><sub><font size="4">max</font></sub>
@@ -55,6 +55,61 @@ as these may also be used throughout different games. Furthermore,
 this approach may also be used to inherit human biases. 
 
 #### Summary
+
+This part shall give an overview about the different reimplemented
+algorithms. These can be divided into *model-free* and *model-based* approaches.
+
+##### Model-free Approaches
+
+In model-free algorithms the agent learns the optimal action-value
+function (or value function or policy) directly from experience
+without having an actual model of the environment. Probably the most
+famous model-free algorithm is *Q-learning* which also builds the
+basis for the (maybe even more famous) [DQN paper](https://arxiv.org/abs/1312.5602).
+
+###### Q-learning
+
+Q-learning aims to approximate the optimal action-value function
+(*Q<sup><font size="4">*</font></sup>(s, a)*) from which the optimal
+policy can be inferred. In the simplest case, a *Q-table* is used as a
+function approximator. 
+
+The basic idea is to start with a random action-value function and
+then iteratively update this function towards the optimal action-value
+function. The update comes after each action *a* with the observed
+reward *r* and new state *s<sup>'</sup>*, the update rule is very
+simple and is derived from Bellman's optimality equation:
+
+<img src="https://render.githubusercontent.com/render/math?math=Q(s,a) \leftarrow (1 - \alpha) Q(s,a) + \alpha \left[r + \gamma \max_{a^{'}} Q(s^{'}, a{'}) \right],">
+
+where &alpha; is the learning rate. To allow for exploration,
+Q-learning commonly uses **&epsi;-greedy exploration* or the *Greedy
+in the Limit with Infinite Exploration* approach (see [David Silver,
+p.13
+ff](https://www.davidsilver.uk/wp-content/uploads/2020/03/control.pdf)).
+
+Diuk uses two variants of Q-learning:
+* **Q-learning**: standard Q-learning approach with epsilon greedy
+  exploration where parameters &alpha;=0.1 and $epsi=0.6; have been
+  found via parameter search.
+* **Q-learning with optimistic initialization**: instead of a some
+  random initialization of the Q-table a smart initialization to an
+  optimistic value (maximum possible value of any state action pair 
+  <img
+  src="https://render.githubusercontent.com/render/math?math=v_max=\frac{r_max}{1-\gamma}">)
+  is used. Thereby unvisited state-action pairs become more like to be
+  visited. Here, &alpha; was set to 1 (deterministic environment) and
+  ;espi to 0 (exploration ensured via initialization).
+
+##### Model-based Approaches 
+
+In model-based approaches 
+
+###### Rmax
+
+###### Factored Rmax
+
+###### DOORmax
 
 
 - adaptations to state-of-the-art Rmax (model based) -> provably efficient algorithm to surpass exploration-exploitation dilemma 
@@ -78,7 +133,7 @@ Defaultly, each agent runs only once. To increase the number of repetitions chan
 
 If you want to use this repository to play a different game, you may want to look at (). Contributions are welcome and if needed, I will provide a more detailed documentation.
 
-## Results
+## Taxi Results
 
 The experimental setup is described on p.31 of Diuks Dissertation. It
 consists of testing against six probe states and reporting the number
@@ -93,6 +148,10 @@ It should be noted that Diuk mainly focused on learning the transition model:
 In this reimplementation also the reward function is learned.
 
 ### Dissertation (see p.49)
+
+- reimplementation results slightly better since gym environment was
+  used in which passenger and destination cannot be at the same
+  location, i.e., state space is actually smaller (500 vs 400)
 
 <table>
   <tr>
@@ -133,9 +192,9 @@ In this reimplementation also the reward function is learned.
     <td><i>R</i><sub><font size="4">max</font></sub></td>
     <td align="center"><b>4151</b></td>
     <td align="center">74ms</td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
+    <td align="center">3313</td>
+    <td align="center">2.8ms</td>
+    <td align="center">9.1s</td>
   </tr>
   <tr>
     <td><i>R</i><sub><font size="4">max</font></sub>, DBN structure</td>
