@@ -1,32 +1,22 @@
 # Efficient Reinforcement Learning [![Build Status](https://travis-ci.com/borea17/efficient_rl.svg?token=rFpzsqEK7NXyNhFzhbms&branch=master)](https://travis-ci.com/borea17/efficient_rl)
 
-## About this repository
+-------------------------------------------------------------------------------------
+**[Motivation](https://github.com/borea17/efficient_rl#motivation)** | **[Summary](https://github.com/borea17/efficient_rl#summary)** | **[Results](https://github.com/borea17/efficient_rl#results)** | **[How to use this repository](https://github.com/borea17/efficient_rl#how-to-use-this-repository)**
 
 This is a Python *reimplementation* for the taxi domain of 
 
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuks Dissertation)
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/OORL.pdf) (Paper by C. Diuk et al.)
 
-If you are only interested in the results, you can directly jump to the
-[Results](https://github.com/borea17/efficient_rl#results). If you
-haven't read the dissertation or paper, I can definetly recommend
-them. However, I will give a short motivation and summary in [TL;
-DR](https://github.com/borea17/efficient_rl#tldr). If you want to use
-this repository to reproduce the results or adapt it to for your own
-research, there is a short introduction in [How to use this
-repository](https://github.com/borea17/efficient_rl#how-to-use-this-repository). 
-
-### TL;DR
-
-#### Motivation
+### Motivation
 
 It is a well known empirical fact in reinforcement learning that
 model-based approaches (e.g., <i>R</i><sub><font
 size="4">max</font></sub>) are more sample-efficient than model-free
 algorithms (e.g., <i>Q-learning</i>). One of the main reasons may be
 that model-based learning tackles the exploration-exploitation dilemma
-in a smarter way by using the accumulated experience to build an
-approximate model of the environment. Furthermore, it has been
+in a smarter way by using the accumulated experience to bui ld an
+approximate model of the environment. Furthermore, it has been 
 shown that rich state representations such as in a *factored MDP* can
 make model-based learning even more sample-efficient. *Factored MDP*s
 enable an effective parametrization of transition and reward dynamics
@@ -54,12 +44,12 @@ needs the objects and relations to consider, which seems more natural
 as these may also be used throughout different games. Furthermore,
 this approach may also be used to inherit human biases. 
 
-#### Summary
+### Summary
 
 This part shall give an overview about the different reimplemented
 algorithms. These can be divided into *model-free* and *model-based* approaches.
 
-##### Model-free Approaches
+#### Model-free Approaches
 
 In model-free algorithms the agent learns the optimal action-value
 function (or value function or policy) directly from experience
@@ -67,7 +57,7 @@ without having an actual model of the environment. Probably the most
 famous model-free algorithm is *Q-learning* which also builds the
 basis for the (maybe even more famous) [DQN paper](https://arxiv.org/abs/1312.5602).
 
-###### Q-learning
+##### Q-learning
 
 Q-learning aims to approximate the optimal action-value function 
 from which the optimal policy can be inferred. In the simplest case, 
@@ -101,15 +91,21 @@ Diuk uses two variants of Q-learning:
   visited. Here, &alpha; was set to 1 (deterministic environment) and
   &epsi; to 0 (exploration ensured via initialization).
 
-##### Model-based Approaches 
+#### Model-based Approaches 
 
-In model-based approaches 
+In model-based approaches the agent learns a model of the environment
+by accumulating experience and obtains the optimal action-value
+function (or value function or policy) through *planning*. Planning
+can be done exactly or approximately. In the experiments, Diuk et al.
+use exact planning, more precisely *value iteration*. The difference
+between the three algorithms lies in the way they learn the
+environment dynamics.
 
-###### Rmax
+##### Rmax
 
-###### Factored Rmax
+##### Factored Rmax
 
-###### DOORmax
+##### DOORmax
 
 
 - adaptations to state-of-the-art Rmax (model based) -> provably efficient algorithm to surpass exploration-exploitation dilemma 
@@ -133,7 +129,7 @@ Defaultly, each agent runs only once. To increase the number of repetitions chan
 
 If you want to use this repository to play a different game, you may want to look at (). Contributions are welcome and if needed, I will provide a more detailed documentation.
 
-## Taxi Results
+### Results
 
 The experimental setup is described on p.31 of Diuks Dissertation. It
 consists of testing against six probe states and reporting the number
