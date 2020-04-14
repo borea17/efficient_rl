@@ -2,7 +2,7 @@
 
 ## About this repository
 
-This is a Python *reimplementation* of 
+This is a Python *reimplementation* for the taxi domain of 
 
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuks Dissertation)
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/OORL.pdf) (Paper by C. Diuk et al.)
