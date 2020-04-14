@@ -1,13 +1,15 @@
 # Efficient Reinforcement Learning [![Build Status](https://travis-ci.com/borea17/efficient_rl.svg?token=rFpzsqEK7NXyNhFzhbms&branch=master)](https://travis-ci.com/borea17/efficient_rl)
 
--------------------------------------------------------------------------------------
 **[Motivation](https://github.com/borea17/efficient_rl#motivation)** | **[Summary](https://github.com/borea17/efficient_rl#summary)** | **[Results](https://github.com/borea17/efficient_rl#results)** | **[How to use this repository](https://github.com/borea17/efficient_rl#how-to-use-this-repository)**
+
+-------------------------------------------------------------------------------------
 
 This is a Python *reimplementation* for the taxi domain of 
 
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuks Dissertation)
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/OORL.pdf) (Paper by C. Diuk et al.)
 
+-------------------------------------------------------------------------------------
 ### Motivation
 
 It is a well known empirical fact in reinforcement learning that
@@ -43,6 +45,8 @@ As prior knowledge <i>DOOR</i><sub><font size="4">max</font></sub>
 needs the objects and relations to consider, which seems more natural
 as these may also be used throughout different games. Furthermore,
 this approach may also be used to inherit human biases. 
+
+-------------------------------------------------------------------------------------
 
 ### Summary
 
@@ -101,35 +105,23 @@ use exact planning, more precisely *value iteration*. The difference
 between the three algorithms lies in the way they learn the
 environment dynamics.
 
-##### Rmax
+##### R<sub><font size="4">max</font></sub>
 
-##### Factored Rmax
 
-##### DOORmax
+
+##### Factored R<sub><font size="4">max</font></sub>
+
+##### DOOR<sub><font size="4">max</font></sub>
 
 
 - adaptations to state-of-the-art Rmax (model based) -> provably efficient algorithm to surpass exploration-exploitation dilemma 
-- role of state representations (factored Rmax)
+- role of state representations (factored Rmax
 
-### How to use this repository
-
-In order to use this repositoy, clone it and run the following command in the directoy of the repository
-```python
-python3 setup.py install
-```
-To reproduce the results go into `efficient_rl` folder and run 
-```python
-python3 dissertation_script.py
-```
-or
-```python
-python3 paper_script.py
-```
-Defaultly, each agent runs only once. To increase the number of repetitions change `n_repetitions` in the scripts. 
-
-If you want to use this repository to play a different game, you may want to look at (). Contributions are welcome and if needed, I will provide a more detailed documentation.
+-------------------------------------------------------------------------------------
 
 ### Results
+
+#### Experimental Setup 
 
 The experimental setup is described on p.31 of Diuks Dissertation. It
 consists of testing against six probe states and reporting the number
@@ -138,12 +130,14 @@ start states was reached. Since there is some randomness in the
 trials, each algorithm runs 100 (`n_repetitions`) times and the
 results are then averaged. 
 
+#### Differences between Reimplementation and Diuk
+
 It should be noted that Diuk mainly focused on learning the transition model:
 > I will focus on learning dynamics and assume the reward function is available as a black box function (p.61 Diss)
 
 In this reimplementation also the reward function is learned.
 
-### Dissertation (see p.49)
+#### Dissertation Results (see p.49)
 
 - reimplementation results slightly better since gym environment was
   used in which passenger and destination cannot be at the same
@@ -230,7 +224,7 @@ In this reimplementation also the reward function is learned.
   </tr>
 </table>
 
-### Paper (see p.7)
+#### Paper Results (see p.7)
 
 <table>
   <tr>
@@ -319,3 +313,24 @@ In this reimplementation also the reward function is learned.
     <td></td>
   </tr>
 </table>
+
+
+
+
+### How to use this repository
+
+In order to use this repositoy, clone it and run the following command in the directoy of the repository
+```python
+python3 setup.py install
+```
+To reproduce the results go into `efficient_rl` folder and run 
+```python
+python3 dissertation_script.py
+```
+or
+```python
+python3 paper_script.py
+```
+Defaultly, each agent runs only once. To increase the number of repetitions change `n_repetitions` in the scripts. 
+
+If you want to use this repository to play a different game, you may want to look at (). Contributions are welcome and if needed, I will provide a more detailed documentation.
