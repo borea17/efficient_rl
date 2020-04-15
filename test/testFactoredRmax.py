@@ -288,8 +288,8 @@ class testFactoredRmax(TestCase):
         no_reward_specific_DBNs['transition'] = factored_taxi.DBNs['transition']
         no_reward_specific_DBNs['reward'] = [factored_taxi.DBNs['reward'][-1]] * num_actions
 
-        taxi_FactoredRmax_no_reward_DBN = FactoredRmax(M=1, num_states_per_var=[5, 5, 5, 4],
-                                                       num_actions=6, gamma=0.95, r_max=20,
+        taxi_FactoredRmax_no_reward_DBN = FactoredRmax(M=1, nS_per_var=[5, 5, 5, 4],
+                                                       nA=num_actions, gamma=0.95, r_max=20,
                                                        delta=0.01, env_name='gym-Taxi',
                                                        DBNs=no_reward_specific_DBNs,
                                                        factored_mdp_dict=factored_mdp_dict)
@@ -305,8 +305,8 @@ class testFactoredRmax(TestCase):
             testFactoredRmax.create_non_specific_transition_DBNs()
         no_transition_specific_DBNs['reward'] = factored_taxi.DBNs['reward']
 
-        taxi_FactoredRmax_no_transition_DBN = FactoredRmax(M=1, num_states_per_var=[5, 5, 5, 4],
-                                                           num_actions=6, gamma=0.95, r_max=20,
+        taxi_FactoredRmax_no_transition_DBN = FactoredRmax(M=1, nS_per_var=[5, 5, 5, 4],
+                                                           nA=6, gamma=0.95, r_max=20,
                                                            delta=0.01, env_name='gym-Taxi',
                                                            DBNs=no_transition_specific_DBNs,
                                                            factored_mdp_dict=factored_mdp_dict)

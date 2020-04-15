@@ -4,7 +4,7 @@ from efficient_rl.agents import Rmax
 
 
 env = gym.make('Taxi-v3').env
-agent = Rmax(M=1, num_states=env.nS, num_actions=env.nA, gamma=0.95, r_max=20, delta=0.01,
+agent = Rmax(M=1, nS=env.nS, nA=env.nA, gamma=0.95, r_max=20, delta=0.01,
              env_name='gym-Taxi')
 
 
