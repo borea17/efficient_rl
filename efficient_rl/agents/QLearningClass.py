@@ -27,7 +27,6 @@ class QLearning(BaseAgent):
             start = time.time()
             action = self.step(state, deterministic)
             new_state, reward, done, _ = env.step(action)
-            # print(state, action, reward, new_state)
             self.update(state, action, reward, new_state)
             rewards.append(reward)
             step_times.append(time.time() - start)

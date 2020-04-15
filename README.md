@@ -83,7 +83,7 @@ p.13
 ff](https://www.davidsilver.uk/wp-content/uploads/2020/03/control.pdf)).
 
 Diuk uses two variants of Q-learning:
-* **Q-learning**: standard Q-learning approach with epsilon greedy
+* **Q-learning**: standard Q-learning approach with &epsi;-greedy
   exploration where parameters &alpha;=0.1 and &epsi;=0.6 have been
   found via parameter search.
 * **Q-learning with optimistic initialization**: instead of a some
@@ -199,18 +199,18 @@ In this reimplementation also the reward function is learned.
     <td><i>R</i><sub><font size="4">max</font></sub></td>
     <td align="center"><b>4151</b></td>
     <td align="center">74ms</td>
-    <td align="center">3313</td>
-    <td align="center">2.8ms</td>
-    <td align="center">9.1s</td>
+    <td align="center">4071</td>
+    <td align="center">2.9ms</td>
+    <td align="center">11.7s</td>
   </tr>
   <tr>
     <td><i>R</i><sub><font size="4">max</font></sub>, DBN structure</td>
     <td>Factored <i>R</i><sub><font size="4">max</font></sub></td>
     <td align="center"><b>1676</b></td>
     <td align="center">97.7ms</td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
+    <td align="center">1695</td>
+    <td align="center">30.3ms</td>
+    <td align="center">51.4s</td>
   </tr>
   <tr>
     <td>Objects, relations to consider,<br><i>R</i><sub><font size="4">max</font></sub></td>

@@ -13,9 +13,11 @@ INSTALL_REQUIRES = [
 setup(
     name='efficient_rl',
     version='1.0',
+    license='MIT',
     description='Reimplementation of Diuks "object-oriented representation for efficient RL".',
     author='Markus Borea',
     author_emal='borea17@protonmail.com',
+    url='https://github.com/borea17/efficient_rl',
     keywords=['Reinforcement Learning', 'Efficient RL', 'OO-MDP'],
     install_requires=INSTALL_REQUIRES,
     packages=find_packages(),

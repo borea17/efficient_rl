@@ -12,8 +12,13 @@ class FactoredTaxi:
 
     ACTION_MAPPING = {0: 'South', 1: 'North', 2: 'East', 3: 'West', 4: 'Pickup', 5: 'Dropoff'}
 
-    def __init__(self):
+    def __init__(self, standard_reset=True):
         self.env = gym.make('Taxi-v3').env
+        if standard_reset:
+            self.replace = True
+        else:
+            self.replace = False
+
         self.DBNs = FactoredTaxi.create_DBNs()
 
         self.factored_mdp_dict = self.create_factored_mdp_state_dict()
@@ -43,9 +48,13 @@ class FactoredTaxi:
             in gym reset, passenger location and destination location are never the same,
             in original of Diettrich this is possible
         """
-        taxi_row, taxi_colum = np.random.randint(5), np.random.randint(5)
-        pass_loc = np.random.randint(4)
-        dest_loc = np.random.randint(4)
+
+        taxi_locs = [0, 1, 2, 3, 4]
+        pass_dest_locs = [0, 1, 2, 3]
+
+        taxi_row, taxi_colum = np.random.choice(taxi_locs, size=2, replace=True)
+        pass_loc, dest_loc = np.random.choice(pass_dest_locs, size=2, replace=self.replace)
+
         self.env.s = self.env.encode(taxi_row, taxi_colum, pass_loc, dest_loc)
         self.s = self.convert_state_into_factored_state()
         return self.s

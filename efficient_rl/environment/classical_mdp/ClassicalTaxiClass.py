@@ -8,12 +8,15 @@ class ClassicalTaxi(taxi.TaxiEnv):
         in Diuks version of Taxi, a passenger can only be dropped off if the taxi is at
         destination, in the typical gym environment a passenger can be dropped off at any of the
         predefined destinations
-
         therefore this class overloads the standard step
     """
-    
-    def __init__(self):
+
+    def __init__(self, standard_reset=True):
         super().__init__()
+        if standard_reset:  # see reset function
+            self.replace = True
+        else:
+            self.replace = False
         return
 
     def step(self, action):
@@ -39,9 +42,11 @@ class ClassicalTaxi(taxi.TaxiEnv):
             in gym reset, passenger location and destination location are never the same,
             in original of Diettrich this is possible
         """
-        taxi_row, taxi_colum = np.random.randint(5), np.random.randint(5)
-        pass_loc = np.random.randint(4)
-        dest_loc = np.random.randint(4)
+        taxi_locs = [0, 1, 2, 3, 4]
+        pass_dest_locs = [0, 1, 2, 3]
+
+        taxi_row, taxi_colum = np.random.choice(taxi_locs, size=2, replace=True)
+        pass_loc, dest_loc = np.random.choice(pass_dest_locs, size=2, replace=self.replace)
         self.s = self.encode(taxi_row, taxi_colum, pass_loc, dest_loc)
         return self.s
 

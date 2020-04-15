@@ -3,7 +3,7 @@ from efficient_rl.agents import Rmax, FactoredRmax, QLearning
 from efficient_rl.environment import TaxiEnvironment
 import numpy as np
 
-grid_size = 10
+grid_size = 5
 max_episodes = 5000
 max_steps = 100
 
@@ -16,16 +16,17 @@ agents = [Rmax(M=1, num_states=envs[0].nS, num_actions=envs[0].nA, gamma=0.95, r
                delta=0.01, env_name='Taxi'),
           FactoredRmax(M=1, num_states_per_var=envs[1].num_states_per_var, num_actions=envs[1].nA,
                        gamma=0.95, r_max=envs[1].r_max, delta=0.01, DBNs=envs[1].DBNs,
-                       env_name='Taxi'),
+                       env_name='Taxi', factored_mdp_dict=envs[1].factored_mdp_dict),
           QLearning(num_states=envs[2].nS, num_actions=envs[2].nA, gamma=0.95, alpha=0.1,
                     epsilon=0.6, optimistic_init=False, env_name='Taxi'),  # p.33/34 Diuks Diss
           QLearning(num_states=envs[3].nS, num_actions=envs[3].nA, gamma=0.95, alpha=1, epsilon=0,
                     optimistic_init=True, r_max=envs[3].r_max, env_name='Taxi')]
 
+print("I got here")
 
 statistics = {}
 
-index = 0
+index = 3
 # for agent, env, agent_name in zip(agents, envs, agent_names):
 for agent, env, agent_name in zip([agents[index]], [envs[index]], [agent_names[index]]):
     print('Start Agent: ', agent_name)

@@ -107,7 +107,6 @@ class DOORmax(RmaxBaseAgent):
         return
 
     def predict_transition(self, state_cond, action):
-        # print(state_cond, action, self.transition_prediction)
         return self.transition_prediction
 
     def transition_learner_can_predict(self, state_cond, action):
@@ -146,6 +145,10 @@ class DOORmax(RmaxBaseAgent):
 
     def predict_transition_probs(self, state_cond, action):
         new_oo_mdp_state = self.predict_transition(state_cond, action)
+
+        if tuple(new_oo_mdp_state) not in self.oo_mdp_dict['oo_mdp_to_flat_map']:
+            print(action)
+
         flat_state = self.make_flat_state((new_oo_mdp_state, 0))
         transition_probs = np.zeros([len(self.states)])
         transition_probs[flat_state] = 1

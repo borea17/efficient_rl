@@ -29,7 +29,9 @@ agents = [Rmax(M=1, num_states=500, num_actions=6, gamma=0.95, r_max=20, delta=0
 
 
 statistics = {}
-for agent, env, agent_name in zip(agents, envs, agent_names):
+index = 2
+for agent, env, agent_name in zip([agents[index]], [envs[index]], [agent_names[index]]):
+# for agent, env, agent_name in zip(agents, envs, agent_names):
     all_step_times = []
     for i_rep in range(n_repetitions):  # repeat agent training n_repetitions times
         print('Start Agent: ', agent_name, ' current_repetition: ', i_rep + 1, '/', n_repetitions)

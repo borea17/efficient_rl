@@ -13,8 +13,13 @@ class OOTaxi:
              'touch_w(taxi, wall)', 'on(taxi, passenger)',
              'on(taxi, destination)', 'passenger.in_taxi']
 
-    def __init__(self):
+    def __init__(self, standard_reset=True):
         self.env = gym.make('Taxi-v3').env
+        if standard_reset:
+            self.replace = True
+        else:
+            self.replace = False
+
         self.northern_border_states = OOTaxi.state_list([0], range(5), range(5), range(4))
         self.southern_border_states = OOTaxi.state_list([4], range(5), range(5), range(4))
         # eastern borders appear also at 6 different locations
@@ -45,7 +50,7 @@ class OOTaxi:
         """
         if action == 5:  # drop off action
             taxi_row, taxi_col, pass_loc, dest_loc = list(self.env.decode(self.env.s))
-            if (taxi_row, taxi_col) in self.env.locs:  # taxi location on any predefined locations
+            if (taxi_row, taxi_col) in self.env.locs:  # taxi location on any predefined location
                 if self.env.locs.index((taxi_row, taxi_col)) != dest_loc:
                     # illegal drop off action following Diuk
                     new_state = self.convert_gym_state_into_OO_MDP_state()
@@ -55,9 +60,17 @@ class OOTaxi:
                     self.env.lastaction = 5
                     return new_state, reward, done, info
             _, reward, done, info = self.env.step(action)
+        elif action == 4:  # pick up action
+            taxi_row, taxi_col, pass_loc, dest_loc = list(self.env.decode(self.env.s))
+            if (taxi_row, taxi_col) in self.env.locs:  # taxi location on any predefined location
+                if self.env.locs.index((taxi_row, taxi_col)) == pass_loc:  # sucessful pickup
+                    self.passenger_picked_up = True
+            _, reward, done, info = self.env.step(action)
         else:
             _, reward, done, info = self.env.step(action)
+
         new_state = self.convert_gym_state_into_OO_MDP_state()
+
         self.s = new_state
         return new_state, reward, done, info
 
@@ -88,8 +101,10 @@ class OOTaxi:
         taxi_y, taxi_x, pass_loc_i, dest_loc_i = list(self.env.decode(self.env.s))
         self.taxi_x, self.taxi_y = taxi_x, taxi_y
 
-        if pass_loc_i == 4:
-            pass_y, pass_x, in_taxi = self.pass_y, self.pass_x, True
+        if self.passenger_picked_up:
+            # after sucessful pickup we need to use stored pass_x and pass_y
+            pass_y, pass_x = self.pass_y, self.pass_x
+            in_taxi = pass_loc_i == 4
         else:
             pass_y, pass_x = self.env.locs[pass_loc_i]
             self.pass_x, self.pass_y = pass_x, pass_y
@@ -107,9 +122,12 @@ class OOTaxi:
             in gym reset, passenger location and destination location are never the same,
             in original of Diettrich this is possible
         """
-        taxi_row, taxi_colum = np.random.randint(5), np.random.randint(5)
-        pass_loc = np.random.randint(4)
-        dest_loc = np.random.randint(4)
+        taxi_locs = [0, 1, 2, 3, 4]
+        pass_dest_locs = [0, 1, 2, 3]
+        self.passenger_picked_up = False
+
+        taxi_row, taxi_colum = np.random.choice(taxi_locs, size=2, replace=True)
+        pass_loc, dest_loc = np.random.choice(pass_dest_locs, size=2, replace=self.replace)
         self.env.s = self.env.encode(taxi_row, taxi_colum, pass_loc, dest_loc)
         self.s = self.convert_gym_state_into_OO_MDP_state()
         return self.s
@@ -120,7 +138,10 @@ class OOTaxi:
 
     def encode(self, taxi_row, taxi_col, pass_loc, dest_idx, pass_loc_in_taxi=None):
         if pass_loc == len(self.env.locs):
+            self.passenger_picked_up = True
             self.pass_y, self.pass_x = self.env.locs[pass_loc_in_taxi]
+        else:
+            self.passenger_picked_up = False
 
         self.env.s = self.env.encode(taxi_row, taxi_col, pass_loc, dest_idx)
         self.s = self.convert_gym_state_into_OO_MDP_state()
