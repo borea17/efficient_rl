@@ -18,11 +18,11 @@ class testFactoredRmax(TestCase):
         factored_mdp_dict = self.factored_envs[0].factored_mdp_dict
         self.classical_env = ClassicalTaxi()
 
-        self.factored_Rmax = FactoredRmax(M=1, num_states_per_var=[5, 5, 5, 4], num_actions=6,
+        self.factored_Rmax = FactoredRmax(M=1, nS_per_var=[5, 5, 5, 4], nA=6,
                                           gamma=0.95, r_max=20, delta=0.01, DBNs=DBNs,
                                           factored_mdp_dict=factored_mdp_dict, env_name='Taxi')
         # comparision between Rmax and FactoredRmax
-        self.taxi_Rmax = Rmax(M=1, num_states=500, num_actions=6, gamma=0.95, r_max=20, delta=0.01)
+        self.taxi_Rmax = Rmax(M=1, nS=500, nA=6, gamma=0.95, r_max=20, delta=0.01)
         self.taxi_FactoredRmax_no_reward_DBN = testFactoredRmax.create_no_reward_DBN_FactoredRmax()
         self.taxi_FactoredRmax_no_trans_DBN = testFactoredRmax.create_no_trans_DBN_FactoredRmax()
         return

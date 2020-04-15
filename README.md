@@ -4,7 +4,7 @@
 
 -------------------------------------------------------------------------------------
 
-This is a Python *reimplementation* for the taxi domain of 
+This is a Python *reimplementation* for the Taxi domain of 
 
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuks Dissertation)
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/OORL.pdf) (Paper by C. Diuk et al.)
@@ -122,13 +122,40 @@ that for planning. Therefore, actions which have not been tried out
 *known* action also leads to maximal return. The parameter *M* defines the number of
 observations the agent has to see until it considers a
 transition/reward to be known, in a deterministic case such as the
-taxi domain, it can be set to 1. R<sub><font size="4">max</font></sub>
+Taxi domain, it can be set to 1. R<sub><font size="4">max</font></sub>
 is guaranteed to find a near-optimal action-value function in
 polynomial time.
 
 ###### Learning transition and reward dynamics
 
+The 5x5 Taxi domain has 500 different states:
+ - 5 *x* positions for taxi
+ - 5 *y* positions for taxi
+ - 5 passenger locations (4 designated locations plus *in-taxi*)
+ - 4 destinations
+
+In the standard R<sub><font size="4">max</font></sub> approach without
+any domain knowledge (except for the maximum possible reward
+*R*<sub><font size="4">max</font></sub>, the
+number of states *|S|*, the number of actions *|A|*), the states are
+simply enumerated and the agent will
+not be able to transfer knowledge throughout the domain. E.g.,
+assume the agent performs an action *north* at some location on the
+grid and learns the state transition (more precisely it would learn
+something like *picking action 0 at state 200 results in ending up in
+state 220*). Beeing at the same location but with a different *passenger location* or *destination
+location* the agent will not be able to predict the outcome of action
+*north*. It will take the agent at least 3000 (*|S| &middot; |A|*)
+steps until it has fully learned the 5x5 taxi transition dynamics.
+Furthermore, the learned transition and reward dynamics are rather
+difficult to interpret.
+To address this shortcoming, the agent needs a different
+representation and some prior knowledge.
+
 ##### Factored R<sub><font size="4">max</font></sub>
+
+Factored R<sub><font size="4">max</font></sub> is an adaptations
+
 
 ##### DOOR<sub><font size="4">max</font></sub>
 

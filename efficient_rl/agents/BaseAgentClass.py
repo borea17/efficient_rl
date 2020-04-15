@@ -40,13 +40,13 @@ class BaseAgent:
             all_rewards.append(np.sum(rewards))
             all_step_times.extend(step_times)
             if i_episode % 100 == 0:
-                print('Episode: {}, Reward: {}, Avg_Step: {}'.format(i_episode, all_rewards[-1],
+                print('Episode: {}, Reward: {}, Avg_Step: {}'.format(i_episode + 1, all_rewards[-1],
                                                                      np.mean(step_times)))
             optimum_accomplished = self.evaluate_on_probes(env, max_steps)
             if optimum_accomplished:
                 break
         if not optimum_accomplished:
-            print("TRAINING DID NOT CONVERGE")
+            raise ValueError('TRAINING DID NOT CONVERGE')
         return all_rewards, all_step_times
 
     def play(self, env, max_steps=100, deterministic=True):
@@ -71,7 +71,6 @@ class BaseAgent:
             else:
                 raise NotImplementedError
 
-            # scores = []
             for probe, max_score in zip(self.PROBES, max_scores):
                 taxi_x, taxi_y = probe[0][0], probe[0][1]
                 pass_loc = env.POSITION_NAMES.index(probe[1])
@@ -81,10 +80,8 @@ class BaseAgent:
 
                 rewards = self.play(env, max_steps, deterministic=True)
 
-                # scores.append(int(sum(rewards)))
                 if int(sum(rewards)) != max_score:
                     return False
-            # return False
             return True
         elif self.env_name == 'gym-Taxi':
             max_scores = [11, 7, 8, 8, 11, 8]

@@ -30,23 +30,6 @@ class Operations:
         return ((h1 == h2).sum() + np.isnan(h1).sum()) == len(h1)
 
     @staticmethod
-    def apply_effect_to_attribute(E, att):
-        """
-            applies an arbitary effect of E to attribute att
-            NOTE: all effects yield the same result (see check_for_incombatible_effects)
-        """
-        effect_type, effect = E.popitem()
-        if effect_type == 'addition':
-            prediction = att + effect
-        elif effect_type == 'assignment':
-            prediction = effect
-        elif effect_type == 'multiplication':
-            prediction = att * effect
-        elif effect_type == 'no effect':  # only DOORmax can assign this effect type
-            prediction = att
-        return prediction
-
-    @staticmethod
     def eff(state, new_state, att, effect_types):
         """
             returns a dictionary of all effect types and their corresponding effect that would
@@ -68,16 +51,12 @@ class Operations:
 
     @staticmethod
     def argwhere_conds_match_h1(list_of_conds, h1):
+        """
+            returns an array with matching indices,
+            i.e., which conditions in list_of_conds match h1
+        """
         matching = []
         for index, h2 in enumerate(list_of_conds):
             if Operations.hypothesis_matches(h2, h1):
-                matching.append(index)
-        return np.array(matching)
-
-    @staticmethod
-    def argwhere_h1_matches_conds(h1, conds):
-        matching = []
-        for index, h2 in enumerate(conds):
-            if Operations.hypothesis_matches(h1, h2):
                 matching.append(index)
         return np.array(matching)

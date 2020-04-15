@@ -5,11 +5,10 @@ import itertools
 
 class FactoredRmax(RmaxBaseAgent):
 
-    def __init__(self, num_states_per_var, num_actions, gamma, M, r_max, delta, DBNs,
-                 factored_mdp_dict, env_name):
-        total_num_states = np.prod(num_states_per_var)
-        super().__init__(total_num_states, num_actions, gamma, M, r_max, env_name, delta)
-        self.num_states_per_state_variable = np.array(num_states_per_var)
+    def __init__(self, nS_per_var, nA, r_max, gamma, M, delta, DBNs, factored_mdp_dict, env_name):
+        total_num_states = np.prod(nS_per_var)
+        super().__init__(total_num_states, nA, gamma, M, r_max, env_name, delta)
+        self.num_states_per_state_variable = np.array(nS_per_var)
         # extract DBNs
         transition_DBNs, reward_DBNs = DBNs['transition'], DBNs['reward']
         # initialize factored reward and transition learner
@@ -182,17 +181,3 @@ class FactoredRmax(RmaxBaseAgent):
                                                  itertools.product(self.states, self.actions))
         self.updated_state_action_seq = set()
         return
-
-
-if __name__ == '__main__':
-    from efficient_rl.environment import TaxiEnvironment
-    factored_env = TaxiEnvironment(grid_size=5, mode='factored MDP')
-    agent = FactoredRmax(num_states_per_var=factored_env.num_states_per_var,
-                         num_actions=factored_env.nA, gamma=0.95, M=1,
-                         delta=0.01, DBNs=factored_env.DBNs, r_max=factored_env.r_max,
-                         factored_mdp_dict=factored_env.factored_mdp_dict, env_name='Taxi')
-
-    _, all_step_times = agent.train(factored_env, 200, 100)
-    print("Avg Step Time: {}, Total Num Steps: {}, Total Time: {}".format(np.mean(all_step_times),
-                                                                          len(all_step_times),
-                                                                          sum(all_step_times)))

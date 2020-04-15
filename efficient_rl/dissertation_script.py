@@ -13,14 +13,13 @@ n_repetitions = 20
 agent_names = ['Rmax', 'Factored Rmax', 'DOORmax', 'Q Learning',
                'Q Learning optimistic initalization']
 envs = [ClassicalTaxi(), FactoredTaxi(), OOTaxi(), ClassicalTaxi(), ClassicalTaxi()]
-agents = [Rmax(M=1, num_states=500, num_actions=6, gamma=0.95, r_max=20, delta=0.01,
-               env_name='gym-Taxi'),
-          FactoredRmax(M=1, num_states_per_var=[5, 5, 5, 4], num_actions=6, gamma=0.95,
-                       r_max=20, delta=0.01, DBNs=envs[1].DBNs,
-                       factored_mdp_dict=envs[1].factored_mdp_dict, env_name='gym-Taxi'),
-          DOORmax(num_states=500, num_actions=6, gamma=0.95, r_max=20, delta=0.01,
+agents = [Rmax(M=1, nS=500, nA=6, r_max=20, gamma=0.95, delta=0.01, env_name='gym-Taxi'),
+          FactoredRmax(M=1, nS_per_var=[5, 5, 5, 4], nA=6, r_max=20, gamma=0.95,
+                       delta=0.01, DBNs=envs[1].DBNs, factored_mdp_dict=envs[1].factored_mdp_dict,
+                       env_name='gym-Taxi'),
+          DOORmax(nS=500, nA=6, r_max=20, gamma=0.95, delta=0.01,
                   env_name='gym-Taxi', k=3, num_atts=envs[2].num_atts,
-                  effect_types=['multiplication', 'assignment', 'addition'],
+                  eff_types=['multiplication', 'assignment', 'addition'],
                   oo_mdp_dict=envs[2].oo_mdp_dict),
           QLearning(num_states=500, num_actions=6, gamma=0.95, alpha=0.1, epsilon=0.6,
                     optimistic_init=False, env_name='gym-Taxi'),  # alpha/epsilon p.33/34 Diuks Diss

@@ -4,13 +4,13 @@ import numpy as np
 
 class Rmax(RmaxBaseAgent):
 
-    def __init__(self, num_states, num_actions, gamma, M, r_max, env_name='Taxi', delta=0.01):
-        super().__init__(num_states, num_actions, gamma, M, r_max, env_name, delta)
+    def __init__(self, nS, nA, r_max, gamma, M, env_name='Taxi', delta=0.01):
+        super().__init__(nS, nA, gamma, M, r_max, env_name, delta)
         # initialize transition and reward learner
-        self.state_action_counter_r = np.zeros([num_states, num_actions])
-        self.emp_total_reward = np.zeros([num_states, num_actions])
-        self.state_action_counter_t = np.zeros([num_states, num_actions])
-        self.transition_count = np.zeros([num_actions, num_states, num_states])
+        self.state_action_counter_r = np.zeros([nS, nA])
+        self.emp_total_reward = np.zeros([nS, nA])
+        self.state_action_counter_t = np.zeros([nS, nA])
+        self.transition_count = np.zeros([nA, nS, nS])
         return
 
     def step(self, state, deterministic=False):

@@ -143,17 +143,6 @@ class TaxiEnvironment:
         self.west_transition_condition = np.array([nan, nan, nan, False, nan, nan, nan])
         self.pick_up_transition_condition = np.array([nan, nan, nan, nan, True, nan, False])
         self.drop_off_transition_condition = np.array([nan, nan, nan, nan, nan, True, True])
-
-        self.north_rewardm1_condition = np.array([nan, nan, nan, nan, nan, nan, nan])
-        self.south_rewardm1_condition = np.array([nan, nan, nan, nan, nan, nan, nan])
-        self.east_rewardm1_condition = np.array([nan, nan, nan, nan, nan, nan, nan])
-        self.west_rewardm1_condition = np.array([nan, nan, nan, nan, nan, nan, nan])
-        self.pick_up_rewardm1_condition = np.array([nan, nan, nan, nan, True, nan, False])
-        self.pick_up_rewardm10_condition_a = np.array([nan, nan, nan, nan, False, nan, nan])
-        self.pick_up_rewardm10_condition_b = np.array([nan, nan, nan, nan, nan, nan, True])
-        self.drop_off_reward20_condition = np.array([nan, nan, nan, nan, True, True])
-        self.drop_off_rewardm10_condition_a = np.array([nan, nan, nan, nan, False, nan])
-        self.drop_off_rewardm10_condition_b = np.array([nan, nan, nan, nan, nan, False])
         return
 
     def make_classical_MDP_state(self):

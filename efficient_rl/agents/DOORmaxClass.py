@@ -13,17 +13,16 @@ class DOORmax(RmaxBaseAgent):
 
     allowed_effect_types = ['addition', 'assignment', 'multiplication']
 
-    def __init__(self, num_states, num_actions, gamma, r_max, env_name, k, effect_types, num_atts,
-                 delta, oo_mdp_dict):
+    def __init__(self, nS, nA, r_max, gamma, env_name, k, eff_types, num_atts, delta, oo_mdp_dict):
         M = 1  # deterministic
-        super().__init__(num_states, num_actions, gamma, M, r_max, env_name, delta)
-        assert all([eff in DOORmax.allowed_effect_types for eff in effect_types])
+        super().__init__(nS, nA, gamma, M, r_max, env_name, delta)
+        assert all([eff in DOORmax.allowed_effect_types for eff in eff_types])
         self.num_atts = num_atts
         self.k = k  # maximum number of different effects possible for any action, att, effect type
-        self.effect_types = effect_types
+        self.effect_types = eff_types
         # fictious state from which maximum reward can be obtained
         self.s_max = -1
-        self.effect_type_mapping = {eff_type: index for index, eff_type in enumerate(effect_types)}
+        self.effect_type_mapping = {eff_type: index for index, eff_type in enumerate(eff_types)}
         # initialize transition and reward learner
         self.transition_F_a, self.transition_F_att_a = self.initialize_transition_failure_conds()
         self.CELearners = self.initialize_CELearners()
@@ -39,9 +38,9 @@ class DOORmax(RmaxBaseAgent):
 
     def step(self, state_cond, deterministic=False):
         flat_state = self.make_flat_state(state_cond)
-        # # Compute a near optimal value function (blowing up here)
+        # Compute a near optimal value function (blowing up here)
         q_optimal = self.compute_near_optimal_value_function()
-        # # Observe current state and pick action greedily
+        # Observe current state and pick action greedily
         if deterministic:
             # pick first action that is optimal
             action = np.argmax(q_optimal[flat_state])
@@ -52,8 +51,6 @@ class DOORmax(RmaxBaseAgent):
         return action
 
     def update_emp_MDP(self, state_cond_not_used, action_not_used):
-        # NOTE: unclear how to iterate over all possible oo_mdp_state-condition pairs
-        # intuitve, but not effective: go thorugh all states
         states_actions_to_check = self.all_possible_state_action_seq - self.updated_state_action_seq
         for flat_state, action in states_actions_to_check:
             state_conds = self.oo_mdp_dict['flat_to_oo_mdp_map'][flat_state]
@@ -89,8 +86,6 @@ class DOORmax(RmaxBaseAgent):
                 for i_eff_type, eff in enumerate(possible_effects):
                     # retrieve effect and corresponding index of effect type
                     # NOTE: Not all effects in self.effect_type occur necessarily as poss. effects
-                    # eff = possible_effects[eff_type]
-                    # i_eff_type = self.effect_type_mapping[eff_type]
                     if eff is None:  # for this effect type no effect could be calculated
                         self.CELearners[action][i_att][i_eff_type].remove()
                         continue
@@ -145,10 +140,6 @@ class DOORmax(RmaxBaseAgent):
 
     def predict_transition_probs(self, state_cond, action):
         new_oo_mdp_state = self.predict_transition(state_cond, action)
-
-        if tuple(new_oo_mdp_state) not in self.oo_mdp_dict['oo_mdp_to_flat_map']:
-            print(action)
-
         flat_state = self.make_flat_state((new_oo_mdp_state, 0))
         transition_probs = np.zeros([len(self.states)])
         transition_probs[flat_state] = 1
@@ -226,18 +217,3 @@ class DOORmax(RmaxBaseAgent):
                                                  itertools.product(self.states, self.actions))
         self.updated_state_action_seq = set()
         return
-
-
-if __name__ == '__main__':
-    from efficient_rl.environment import TaxiEnvironment
-    oo_env = TaxiEnvironment(grid_size=5, mode='OO MDP')
-    agent = DOORmax(num_states=oo_env.nS, num_actions=oo_env.nA, num_atts=oo_env.num_atts,
-                    gamma=0.95, r_max=oo_env.r_max, env_name='Taxi', k=3, delta=0.01,
-                    oo_mdp_dict=oo_env.oo_mdp_dict,
-                    effect_types=['addition', 'multiplication', 'assignment'])
-    # agent.main(oo_env, max_steps=2000)
-
-    _, all_step_times = agent.train(oo_env, max_episodes=1200, max_steps=100)
-    print("Avg Step Time: {}, Total Num Steps: {}, Total Time: {}".format(np.mean(all_step_times),
-                                                                          len(all_step_times),
-                                                                          sum(all_step_times)))

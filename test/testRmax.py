@@ -16,12 +16,11 @@ class testRmax(TestCase):
     def setUp(self):
         self.envs = [gym.make("Taxi-v3").env, ClassicalTaxi(),
                      TaxiEnvironment(grid_size=5, mode='classical MDP')]
-        self.taxi_agent = Rmax(M=2, num_states=500, num_actions=6, gamma=0.95, r_max=20, delta=0.01)
-        self.deterministic_taxi_agent = Rmax(M=1, num_states=500, num_actions=6, gamma=0.95,
-                                             r_max=20, delta=0.01)
+        self.taxi_agent = Rmax(M=2, nS=500, nA=6, gamma=0.95, r_max=20, delta=0.01)
+        self.deterministic_taxi_agent = Rmax(M=1, nS=500, nA=6, gamma=0.95, r_max=20, delta=0.01)
         self.random_agent = Rmax(M=testRmax.random_MDP['M'],
-                                 num_states=testRmax.random_MDP['num_states'],
-                                 num_actions=testRmax.random_MDP['num_actions'],
+                                 nS=testRmax.random_MDP['num_states'],
+                                 nA=testRmax.random_MDP['num_actions'],
                                  gamma=testRmax.random_MDP['gamma'],
                                  r_max=testRmax.random_MDP['max_reward'],
                                  delta=testRmax.random_MDP['delta'])
