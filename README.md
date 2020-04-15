@@ -92,14 +92,14 @@ Diuk uses two variants of Q-learning:
   <img
   src="https://render.githubusercontent.com/render/math?math=v_{max}">)
   is used. Thereby unvisited state-action pairs become more like to be
-  visited. Here, &alpha; was set to 1 (deterministic environment) and
+  visited. Here, &alpha; was is to 1 (deterministic environment) and
   &epsi; to 0 (exploration ensured via initialization).
 
 #### Model-based Approaches 
 
 In model-based approaches the agent learns a model of the environment
-by accumulating experience and obtains the optimal action-value
-function (or value function or policy) through *planning*. Planning
+by accumulating experience. Then, an optimal action-value
+function (or value function or policy) is obtained through *planning*. Planning
 can be done exactly or approximately. In the experiments, Diuk et al.
 use exact planning, more precisely *value iteration*. The difference
 between the three algorithms lies in the way they learn the
@@ -110,7 +110,7 @@ environment dynamics.
 R<sub><font size="4">max</font></sub> is a provably efficient
 state-of-the-art algorithm to surpass the exploration-exploitation
 dilemma through an intuitive approach: R<sub><font
-size="4">max</font></sub> basically divides state-action pairs into *known*
+size="4">max</font></sub> divides state-action pairs into *known*
 (state-action pairs which have been visited often enough to build an
 accurate transition/reward function) and *unknown*. Whenever a state
 is *known*, the algorithm uses the empiriical transition and reward
@@ -125,6 +125,8 @@ transition/reward to be known, in a deterministic case such as the
 taxi domain, it can be set to 1. R<sub><font size="4">max</font></sub>
 is guaranteed to find a near-optimal action-value function in
 polynomial time.
+
+###### Learning transition and reward dynamics
 
 ##### Factored R<sub><font size="4">max</font></sub>
 

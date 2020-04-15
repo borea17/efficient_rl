@@ -123,6 +123,9 @@ class TaxiEnvironment:
         elif action == 'Dropoff':
             if oo_mdp_OP.hypothesis_matches(self.drop_off_transition_condition, current_condition):
                 self.objs['passenger']['in_taxi'] = False
+                if self.mode in ['classical MDP', 'factored MDP']:
+                    self.objs['passenger']['x'] = self.objs['taxi']['x']
+                    self.objs['passenger']['y'] = self.objs['taxi']['y']
                 reward, done = 20, True
             else:
                 reward = -10
