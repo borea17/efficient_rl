@@ -142,7 +142,7 @@ simply enumerated and the agent will
 not be able to transfer knowledge throughout the domain. E.g.,
 assume the agent performs an action *north* at some location on the
 grid and learns the state transition (more precisely it would learn
-something like *picking action 0 at state 200 results in ending up in
+something like *picking action 1 at state 200 results in ending up in
 state 220*). Beeing at the same location but with a different *passenger location* or *destination
 location* the agent will not be able to predict the outcome of action
 *north*. It will take the agent at least 3000 (*|S| &middot; |A|*)
@@ -154,14 +154,17 @@ representation and some prior knowledge.
 
 ##### Factored R<sub><font size="4">max</font></sub>
 
-Factored R<sub><font size="4">max</font></sub> is an adaptations
+Factored R<sub><font size="4">max</font></sub> is a R<sub><font
+size="4">max</font></sub>-adaptation that builds on a *factored MDP*
+environment representation. 
 
 
 ##### DOOR<sub><font size="4">max</font></sub>
 
+DOOR<sub><font size="4">max</font></sub> is a R<sub><font
+size="4">max</font></sub>-adaptation that builds on a *determistic (propositional)
+object-oriented MDP* environment representation.
 
-- adaptations to state-of-the-art Rmax (model based) -> provably efficient algorithm to surpass exploration-exploitation dilemma 
-- role of state representations (factored Rmax
 
 -------------------------------------------------------------------------------------
 
