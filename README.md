@@ -442,7 +442,7 @@ python setup.py install
 
 ##### Via Pip
 
-```python
+```bash
 pip install efficient_rl
 ```
 
@@ -450,13 +450,16 @@ pip install efficient_rl
 
 After successful installatian *via git*
 
-```python
+```bash
 cd efficient_rl
 python dissertation_script.py 
 python paper_script.py
 ```
 
 Defaultly, each agent runs only once. To increase the number of repetitions change `n_repetitions` in the scripts. 
+
+WARNING: It is not recommended to run `paper_script.py` on a standard computer as it may take
+several hours.
 
 #### Contributions
 

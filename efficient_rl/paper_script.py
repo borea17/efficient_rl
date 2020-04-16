@@ -4,8 +4,8 @@ from efficient_rl.environment import TaxiEnvironment
 import numpy as np
 
 # setup
-n_repetitions = 100
-max_episodes = 10000
+n_repetitions = 1
+max_episodes = 100000
 max_steps = 100
 agents_to_compare = [
     'Q Learning - optimistic initialization',
@@ -36,14 +36,14 @@ def compare_agent(agent_name):
             agent = QLearning(nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, alpha=1, epsilon=0,
                               optimistic_init=True, env_name='Taxi')
         elif agent_name == 'Rmax':
-            agent = Rmax(M=1, nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, delta=0.01,
+            agent = Rmax(M=1, nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, delta=0.1,
                          env_name='Taxi')
         elif agent_name == 'Factored Rmax':
             agent = FactoredRmax(M=1, nS_per_var=env.num_states_per_var, nA=env.nA, r_max=env.r_max,
-                                 gamma=0.95, delta=0.01, DBNs=env.DBNs,
+                                 gamma=0.95, delta=0.1, DBNs=env.DBNs,
                                  factored_mdp_dict=env.factored_mdp_dict, env_name='Taxi')
         elif agent_name == 'DOORmax':
-            agent = DOORmax(nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, delta=0.01, k=3,
+            agent = DOORmax(nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, delta=0.1, k=3,
                             num_atts=env.num_atts, oo_mdp_dict=env.oo_mdp_dict, env_name='Taxi',
                             eff_types=['assignment', 'addition', 'multiplication'])
 
