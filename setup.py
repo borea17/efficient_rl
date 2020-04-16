@@ -18,6 +18,7 @@ setup(
     author='Markus Borea',
     author_emal='borea17@protonmail.com',
     url='https://github.com/borea17/efficient_rl',
+    download_url='https://github.com/borea17/efficient_rl/archive/v_1.0.tar.gz',
     keywords=['Reinforcement Learning', 'Efficient RL', 'OO-MDP'],
     install_requires=INSTALL_REQUIRES,
     packages=find_packages(),

@@ -1,4 +1,5 @@
-# Efficient Reinforcement Learning [![Build Status](https://travis-ci.com/borea17/efficient_rl.svg?token=rFpzsqEK7NXyNhFzhbms&branch=master)](https://travis-ci.com/borea17/efficient_rl)
+# Efficient Reinforcement Learning
+[![Build Status](https://travis-ci.com/borea17/efficient_rl.svg?token=rFpzsqEK7NXyNhFzhbms&branch=master)](https://travis-ci.com/borea17/efficient_rl)
 
 **[Motivation](https://github.com/borea17/efficient_rl#motivation)** | **[Summary](https://github.com/borea17/efficient_rl#summary)** | **[Results](https://github.com/borea17/efficient_rl#results)** | **[How to use this repository](https://github.com/borea17/efficient_rl#how-to-use-this-repository)**
 
@@ -59,7 +60,7 @@ In model-free algorithms the agent learns the optimal action-value
 function (or value function or policy) directly from experience
 without having an actual model of the environment. Probably the most
 famous model-free algorithm is *Q-learning* which also builds the
-basis for the (maybe even more famous) [DQN paper](https://arxiv.org/abs/1312.5602).
+basis for the (perhaps even more famous) [DQN paper](https://arxiv.org/abs/1312.5602).
 
 ##### Q-learning
 
@@ -155,16 +156,58 @@ representation and some prior knowledge.
 ##### Factored R<sub><font size="4">max</font></sub>
 
 Factored R<sub><font size="4">max</font></sub> is a R<sub><font
-size="4">max</font></sub>-adaptation that builds on a *factored MDP*
-environment representation. 
+size="4">max</font></sub> adaptation that builds on a *factored MDP*
+environment representation. In a *factored MDP* a state is represented
+as tuple (hence *factored state*), e.g., in the Taxi domain the state
+can be represented as the 4-tuple 
+*(taxi x location, taxi y location, passenger location, passenger destination)* 
+
+(Note that *passenger location* actually enumerates the different *(x,
+y)* start passenger locations plus whether the passenger is *in
+taxi*.) This representation allows to represent partial dependency
+relations for the environment dynamics between variables using
+*Dynamic Bayesian Networks (DBNs)*. E.g., for action *North* we know
+that for the transition dynamics each state variable at time time
+*t+1* only depends on its own value at time *t*, i.e., the *x
+location* at time *t+1* under action *North* is independent of the *y
+location*, *passenger location* and *passenger destination* at time
+*t*. This knowledge is encoded in a *DBN* (each action may have a
+different DBN) and it enables Factored R<sub><font
+size="4">max</font></sub> to much more sample-efficient learning. 
+The downside of this approach is that this kind of prior knowledge may not
+be available and that it lacks some generalization, e.g., although
+Factored R<sub><font size="4">max</font></sub> knows that the *x location* is independent of all other state
+variables, Factored R<sub><font size="4">max</font></sub> still needs
+to perfom action *north* at each *x location* to learn the outcome.
 
 
 ##### DOOR<sub><font size="4">max</font></sub>
 
 DOOR<sub><font size="4">max</font></sub> is a R<sub><font
-size="4">max</font></sub>-adaptation that builds on a *determistic (propositional)
-object-oriented MDP* environment representation.
-
+size="4">max</font></sub> adaptation that builds on a *deterministic (propositional)
+object-oriented MDP (OO MDP)* environment representation. This representation
+is based on objects and their interactions, a state is presented as 
+the union of all (object) attribute values. Additionally, each state
+has an attributed boolean vector describing which *relations* are
+enabled and which are not in that state. During a transition each
+attribute of the state may exert some kind of *effect* and result in
+attribute change. There are some limitations to the *effects* that can
+occur which are well explained in Diuks dissertation. The basic idea
+of DOOR<sub><font size="4">max</font></sub> is to recover the
+deterministic OO MDP using *condition-effect learners* (in these
+learners *conditions* are basically the relations that need to hold in
+order for an effect to occur).
+The paper results show that DOOR<sub><font size="4">max</font></sub>
+offers better generalization than Factored R<sub><font
+size="4">max</font></sub> which results from the property that
+DOOR<sub><font size="4">max</font></sub> is based on interactions
+between objects and therefore knowledge can much better transfer
+throughout the domain. Another feature is that the learned transition
+dynamics is much easier to interpret, e.g., DOOR<sub><font
+size="4">max</font></sub> will learn that action *North* has the
+effect ot incrementing *taxi.y* by 1 when the relation
+*touch_north(taxi, wall)* outputs *False* and there wont be any change
+in *taxi.y* if *touch_north(taxi, wall)* outputs *True*.
 
 -------------------------------------------------------------------------------------
 
@@ -172,25 +215,41 @@ object-oriented MDP* environment representation.
 
 #### Experimental Setup 
 
-The experimental setup is described on p.31 of Diuks Dissertation. It
-consists of testing against six probe states and reporting the number
+The experimental setup is described on p.31 of Diuks Dissertation or
+p.7 of the paper. It consists of testing against six probe states and reporting the number
 of steps the agent had to take until the optimal policy for these 6
 start states was reached. Since there is some randomness in the
-trials, each algorithm runs 100 (`n_repetitions`) times and the
-results are then averaged. 
+trials, each algorithm runs 100 times and the results are then averaged. 
 
 #### Differences between Reimplementation and Diuk
 
-It should be noted that Diuk mainly focused on learning the transition model:
-> I will focus on learning dynamics and assume the reward function is available as a black box function (p.61 Diss)
+There are some differences between this reimplementation and Diuks
+approach which are listed below:
 
-In this reimplementation also the reward function is learned.
+1) For educational purposes, the reward function is also learned in
+   this reimplementation (always in the simplest possible way). Note that Diuk mainly focused on learning the
+   transition model:
+   > I will focus on learning dynamics and assume the reward function is available as a black box function (p. 61 Dissertation)
+2) It is unknwon whether in Diuks setting during training the passenger start location
+   and destination could be the same. The original definition by
+   [Diettetrich](https://arxiv.org/abs/cs/9905014) states: 
+   > To keep things uniform, the taxi must pick up and drop off the passenger even if he/she is already at the destination
+   Therefore, in this reimplementation this was also possible during
+   training. While the results for R<sub><font
+   size="4">max</font></sub> an its adaptations indicate that Diuk used
+   the same setting, there is a discrepancy for Q-learning. When the
+   setting was changed such that passenger start and destination could
+   not be the same (these are the results in brackets), similar results to Diuk could be obtained.
+3) Some implementation details such as the update procedure
+   of the empirical transition and reward functions or the
+   condition-effect-learners which were not well enough documented or
+   which did not fit into the reimplementation structure.
 
-#### Dissertation Results (see p.49)
+#### Dissertation Results (p.49)
 
-- reimplementation results slightly better since gym environment was
-  used in which passenger and destination cannot be at the same
-  location, i.e., state space is actually smaller (500 vs 400)
+The dissertation results align with the reimplementation results. For
+the differences in *Q-Learning* and the values in brackets, refer to
+2) of [Differences between Reimplementation and Diuk].
 
 <table>
   <tr>
@@ -213,45 +272,45 @@ In this reimplementation also the reward function is learned.
     <td>Q-learning</td>
     <td align="center"><b>106859</b></td>
     <td align="center">&lt; 1ms</td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td><b>117716</b></td>
+    <td>%lt; 1ms</td>
+    <td>4.3s</td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
     <td>Q-learning - optimistic <br>initialization</td>
     <td align="center"><b>29350</b></td>
     <td align="center">&lt;1ms</td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
+    <td align="center"><b>75219</b></td>
+    <td align="center">&lt;1ms</td>
+    <td align="center">3.7s</td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
     <td><i>R</i><sub><font size="4">max</font></sub></td>
     <td align="center"><b>4151</b></td>
     <td align="center">74ms</td>
-    <td align="center">4071</td>
+    <td align="center"><b>4087</b></td>
     <td align="center">2.9ms</td>
-    <td align="center">11.7s</td>
+    <td align="center">11.8s</td>
   </tr>
   <tr>
     <td><i>R</i><sub><font size="4">max</font></sub>, DBN structure</td>
     <td>Factored <i>R</i><sub><font size="4">max</font></sub></td>
     <td align="center"><b>1676</b></td>
     <td align="center">97.7ms</td>
-    <td align="center">1695</td>
-    <td align="center">30.3ms</td>
-    <td align="center">51.4s</td>
+    <td align="center"><b>1718</b></td>
+    <td align="center">30ms</td>
+    <td align="center">51.6s</td>
   </tr>
   <tr>
     <td>Objects, relations to consider,<br><i>R</i><sub><font size="4">max</font></sub></td>
     <td>DOO<i>R</i><sub><font size="4">max</font></sub></td>
     <td align="center"><b>529</b></td>
     <td align="center">48.2ms</td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
+    <td align="center"><b>483</b></td>
+    <td align="center">34.3ms</td>
+    <td align="center">16.5s</td>
   </tr>
   <tr>
     <td>|<i>A</i>|, visualization of game</td>
