@@ -434,7 +434,7 @@ The results were obtained on my lenovo thinkpad yoga 260 (i7-6500 CPU
 
 ##### Building from Source
 
-```python
+```bash
 git clone --depth 1 https://github.com/borea17/efficient_rl/
 cd efficient_rl
 python setup.py install
