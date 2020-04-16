@@ -251,6 +251,9 @@ The dissertation results align with the reimplementation results. For
 the differences in *Q-Learning* and the values in brackets, refer to
 2) of [Differences between Reimplementation and Diuk](https://github.com/borea17/efficient_rl/#differences-between-reimplementation-and-diuk).
 
+The results were obtained on my lenovo thinkpad yoga 260 (i7-6500 CPU
+@ 2.50 GHz x 4).
+
 <table>
   <tr>
     <th>Domain knowledge</th>
@@ -332,7 +335,7 @@ the differences in *Q-Learning* and the values in brackets, refer to
   </tr>
 </table>
 
-#### Paper Results (see p.7)
+#### Paper Results (p.7)
 
 <table>
   <tr>

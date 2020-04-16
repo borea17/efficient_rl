@@ -5,15 +5,15 @@ from efficient_rl.agents import BaseAgent
 
 class QLearning(BaseAgent):
 
-    def __init__(self, num_states, num_actions, gamma, alpha, epsilon, optimistic_init, env_name,
+    def __init__(self, nS, nA, gamma, alpha, epsilon, optimistic_init, env_name,
                  r_max=0):
-        super().__init__(num_states, num_actions, gamma, env_name)
+        super().__init__(nS, nA, gamma, env_name)
         self.optimistic_init = optimistic_init
         if optimistic_init:
             self.r_max = r_max
-            self.Q_table = (r_max/(1-self.gamma)) * np.ones([num_states, num_actions])
+            self.Q_table = (r_max/(1-self.gamma)) * np.ones([nS, nA])
         else:
-            self.Q_table = np.zeros([num_states, num_actions])
+            self.Q_table = np.zeros([nS, nA])
         self.alpha = alpha
         self.epsilon = epsilon
         return

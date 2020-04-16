@@ -1,44 +1,77 @@
 from prettytable import PrettyTable
-from efficient_rl.agents import Rmax, FactoredRmax, QLearning
+from efficient_rl.agents import Rmax, FactoredRmax, DOORmax, QLearning
 from efficient_rl.environment import TaxiEnvironment
 import numpy as np
 
-grid_size = 5
-max_episodes = 5000
+# setup
+n_repetitions = 100
+max_episodes = 10000
 max_steps = 100
+agents_to_compare = [
+    'Q Learning - optimistic initialization',
+    'Rmax',
+    'Factored Rmax',
+    'DOORmax'
+]
 
-agent_names = ['Rmax', 'Factored Rmax', 'Q Learning', 'Q Learning (optimistic initialization)']
-envs = [TaxiEnvironment(grid_size=grid_size, mode='classical MDP'),
-        TaxiEnvironment(grid_size=grid_size, mode='factored MDP'),
-        TaxiEnvironment(grid_size=grid_size, mode='classical MDP'),
-        TaxiEnvironment(grid_size=grid_size, mode='classical MDP')]
-agents = [Rmax(M=1, num_states=envs[0].nS, num_actions=envs[0].nA, gamma=0.95, r_max=20,
-               delta=0.01, env_name='Taxi'),
-          FactoredRmax(M=1, num_states_per_var=envs[1].num_states_per_var, num_actions=envs[1].nA,
-                       gamma=0.95, r_max=envs[1].r_max, delta=0.01, DBNs=envs[1].DBNs,
-                       env_name='Taxi', factored_mdp_dict=envs[1].factored_mdp_dict),
-          QLearning(num_states=envs[2].nS, num_actions=envs[2].nA, gamma=0.95, alpha=0.1,
-                    epsilon=0.6, optimistic_init=False, env_name='Taxi'),  # p.33/34 Diuks Diss
-          QLearning(num_states=envs[3].nS, num_actions=envs[3].nA, gamma=0.95, alpha=1, epsilon=0,
-                    optimistic_init=True, r_max=envs[3].r_max, env_name='Taxi')]
 
-print("I got here")
+def compare_agent(agent_name):
+    if agent_name in ['Q Learning - optimistic initialization', 'Rmax']:
+        envs = [TaxiEnvironment(grid_size=5, mode='classical MDP'),
+                TaxiEnvironment(grid_size=10, mode='classical MDP')]
+    elif agent_name == 'Factored Rmax':
+        envs = [TaxiEnvironment(grid_size=5, mode='factored MDP'),
+                TaxiEnvironment(grid_size=10, mode='factored MDP')]
+    elif agent_name == 'DOORmax':
+        envs = [TaxiEnvironment(grid_size=5, mode='OO MDP'),
+                TaxiEnvironment(grid_size=10, mode='OO MDP')]
+    else:
+        raise NameError('agent name unknown')
+        
+    print('Start agent: ', agent_name)
+
+    current_statistics = {}
+    for env, env_name in zip(envs, ['Taxi 5x5', 'Taxi 10x10']):
+        if agent_name == 'Q Learning - optimistic initialization':
+            agent = QLearning(nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, alpha=1, epsilon=0,
+                              optimistic_init=True, env_name='Taxi')
+        elif agent_name == 'Rmax':
+            agent = Rmax(M=1, nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, delta=0.01,
+                         env_name='Taxi')
+        elif agent_name == 'Factored Rmax':
+            agent = FactoredRmax(M=1, nS_per_var=env.num_states_per_var, nA=env.nA, r_max=env.r_max,
+                                 gamma=0.95, delta=0.01, DBNs=env.DBNs,
+                                 factored_mdp_dict=env.factored_mdp_dict, env_name='Taxi')
+        elif agent_name == 'DOORmax':
+            agent = DOORmax(nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, delta=0.01, k=3,
+                            num_atts=env.num_atts, oo_mdp_dict=env.oo_mdp_dict, env_name='Taxi',
+                            eff_types=['assignment', 'addition', 'multiplication'])
+
+        print(' start with', env_name)
+        all_step_times = []
+        for i_rep in range(n_repetitions):
+            print('   current repetition: ', i_rep + 1, '/', n_repetitions)
+            _, step_times = agent.train(env, max_episodes=max_episodes, max_steps=max_steps,
+                                        show_intermediate=False)
+            all_step_times.extend(step_times)
+
+        current_statistics[env_name + ' #steps'] = len(all_step_times)/n_repetitions
+        current_statistics[env_name + ' Time/step'] = np.mean(all_step_times)
+    return current_statistics
+
 
 statistics = {}
+for agent_name in agents_to_compare:
+    statistics[agent_name] = compare_agent(agent_name)
 
-index = 3
-# for agent, env, agent_name in zip(agents, envs, agent_names):
-for agent, env, agent_name in zip([agents[index]], [envs[index]], [agent_names[index]]):
-    print('Start Agent: ', agent_name)
-    _, all_step_times = agent.train(env, max_episodes=max_episodes, max_steps=max_steps)
-    statistics[agent_name] = {'steps total': len(all_step_times),
-                              'avg step time': np.mean(all_step_times),
-                              'total time': sum(all_step_times)}
-print('\n')
-table = PrettyTable(['Agent', 'steps total', 'avg step time', 'total time'])
+print('\n Paper Results \n')
+table = PrettyTable(['Agent', 'Taxi 5x5 #steps', 'Taxi 5x5 Time/step',
+                     'Taxi 10x10 #steps', 'Taxi 10x10 Time/step'])
 for name_of_agent, data_agent in statistics.items():
+    print(data_agent)
     table.add_row([name_of_agent,
-                   data_agent['steps total'],
-                   np.round(data_agent['avg step time'], 5),
-                   np.round(data_agent['total time'], 2)])
+                   data_agent['Taxi 5x5 #steps'],
+                   np.round(data_agent['Taxi 5x5 Time/step'], 5),
+                   data_agent['Taxi 10x10 #steps'],
+                   np.round(data_agent['Taxi 10x10 Time/step'], 5)])
 print(table)
