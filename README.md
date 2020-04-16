@@ -1,5 +1,5 @@
 # Efficient Reinforcement Learning
-[![Build Status](https://travis-ci.com/borea17/efficient_rl.svg?token=rFpzsqEK7NXyNhFzhbms&branch=master)](https://travis-ci.com/borea17/efficient_rl)
+[![Build Status](https://travis-ci.com/borea17/efficient_rl.svg?token=rFpzsqEK7NXyNhFzhbms&branch=master)](https://travis-ci.com/borea17/efficient_rl) [![PyPI version](https://badge.fury.io/py/efficient-rl.svg)](https://badge.fury.io/py/efficient-rl)
 
 **[Motivation](https://github.com/borea17/efficient_rl#motivation)** | **[Summary](https://github.com/borea17/efficient_rl#summary)** | **[Results](https://github.com/borea17/efficient_rl#results)** | **[How to use this repository](https://github.com/borea17/efficient_rl#how-to-use-this-repository)**
 
