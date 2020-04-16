@@ -251,7 +251,7 @@ approach which are listed below:
 
 The dissertation results align with the reimplementation results. For
 the differences in *Q-Learning* and the values in brackets, refer to
-2) of [Differences between Reimplementation and Diuk].
+2) of [Differences between Reimplementation and Diuk](https://github.com/borea17/efficient_rl/#differences-between-reimplementation-and-diuk).
 
 <table>
   <tr>
