@@ -229,11 +229,13 @@ approach which are listed below:
 1) For educational purposes, the reward function is also learned in
    this reimplementation (always in the simplest possible way). Note that Diuk mainly focused on learning the
    transition model:
-   > I will focus on learning dynamics and assume the reward function is available as a black box function (p. 61 Dissertation)
+   > I will focus on learning dynamics and assume the reward function is available as a black box function.
 2) It is unknwon whether in Diuks setting during training the passenger start location
    and destination could be the same. The original definition by
-   [Diettetrich](https://arxiv.org/abs/cs/9905014) states: 
-   > To keep things uniform, the taxi must pick up and drop off the passenger even if he/she is already at the destination
+   [Diettetrich](https://arxiv.org/abs/cs/9905014) states:
+   
+   > To keep things uniform, the taxi must pick up and drop off the passenger even if he/she is already at the destination  
+   
    Therefore, in this reimplementation this was also possible during
    training. While the results for R<sub><font
    size="4">max</font></sub> an its adaptations indicate that Diuk used
