@@ -8,8 +8,8 @@ n_repetitions = 1
 max_episodes = 100000
 max_steps = 100
 agents_to_compare = [
-    'Q Learning - optimistic initialization',
-    'Rmax',
+    # 'Q Learning - optimistic initialization',
+    # 'Rmax',
     'Factored Rmax',
     'DOORmax'
 ]
