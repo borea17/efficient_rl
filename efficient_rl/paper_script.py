@@ -27,7 +27,7 @@ def compare_agent(agent_name):
                 TaxiEnvironment(grid_size=10, mode='OO MDP')]
     else:
         raise NameError('agent name unknown')
-        
+
     print('Start agent: ', agent_name)
 
     current_statistics = {}
@@ -51,8 +51,7 @@ def compare_agent(agent_name):
         all_step_times = []
         for i_rep in range(n_repetitions):
             print('   current repetition: ', i_rep + 1, '/', n_repetitions)
-            _, step_times = agent.train(env, max_episodes=max_episodes, max_steps=max_steps,
-                                        show_intermediate=False)
+            _, step_times = agent.train(env, max_episodes=max_episodes, max_steps=max_steps)
             all_step_times.extend(step_times)
 
         current_statistics[env_name + ' #steps'] = len(all_step_times)/n_repetitions

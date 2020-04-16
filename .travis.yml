@@ -20,8 +20,3 @@ jobs:
           script:
               - cd efficient_rl
               - python dissertation_script.py
-        - stage: reproducible research
-          name: "Reproduce paper results"
-          script:
-              - cd efficient_rl
-              - python paper_script.py
