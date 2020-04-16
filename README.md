@@ -160,7 +160,7 @@ size="4">max</font></sub> adaptation that builds on a *factored MDP*
 environment representation. In a *factored MDP* a state is represented
 as tuple (hence *factored state*), e.g., in the Taxi domain the state
 can be represented as the 4-tuple 
-*(taxi x location, taxi y location, passenger location, passenger destination)* 
+> [taxi x location, taxi y location, passenger location, passenger destination]
 
 (Note that *passenger location* actually enumerates the different *(x,
 y)* start passenger locations plus whether the passenger is *in
