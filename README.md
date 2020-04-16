@@ -272,18 +272,18 @@ the differences in *Q-Learning* and the values in brackets, refer to
     <td>Q-learning</td>
     <td align="center"><b>106859</b></td>
     <td align="center">&lt; 1ms</td>
-    <td align="center"><b>117716</b></td>
-    <td align="center">&lt; 1ms</td>
-    <td align="center">4.3s</td>
+    <td align="center"><b>117716</b><br>(118329)</td>
+    <td align="center">&lt;1ms<br>(&lt;1ms)</td>
+    <td align="center">4.3s<br>(4.5s)</td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
     <td>Q-learning - optimistic <br>initialization</td>
     <td align="center"><b>29350</b></td>
     <td align="center">&lt;1ms</td>
-    <td align="center"><b>75219</b></td>
-    <td align="center">&lt;1ms</td>
-    <td align="center">3.7s</td>
+    <td align="center"><b>75219</b><br>(28154)</td>
+    <td align="center">&lt;1ms<br>(&lt;1ms)</td>
+    <td align="center">3.7s<br>(1.5s)</td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
@@ -427,18 +427,39 @@ the differences in *Q-Learning* and the values in brackets, refer to
 
 ### How to use this repository
 
-In order to use this repositoy, clone it and run the following command in the directoy of the repository
+#### Installation
+
+##### Via Git
+
 ```python
-python3 setup.py install
+git clone --depth 1 https://github.com/borea17/efficient_rl/
+cd efficient_rl
+python setup.py install
 ```
-To reproduce the results go into `efficient_rl` folder and run 
+
+##### Via Pip
+
 ```python
-python3 dissertation_script.py
+pip install efficient_rl
 ```
-or
+
+#### Reproduce results
+
+After successful installatian *via git*
+
 ```python
-python3 paper_script.py
+cd efficient_rl
+python dissertation_script.py 
+python paper_script.py
 ```
+
 Defaultly, each agent runs only once. To increase the number of repetitions change `n_repetitions` in the scripts. 
 
-If you want to use this repository to play a different game, you may want to look at (). Contributions are welcome and if needed, I will provide a more detailed documentation.
+#### Contributions
+
+If you want to use this repository for a different environment, you
+may want to have a look at `efficient_rl/environment` folder. There is
+a self written environment called `TaxiEnvironmentClass.py` and there
+are extensions to the `gym` Taxi environment in the corresponding folders. 
+
+Contributions are welcome and if needed, I will provide a more detailed documentation.

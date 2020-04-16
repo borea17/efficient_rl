@@ -31,7 +31,7 @@ class BaseAgent:
             raise NotImplementedError
         return
 
-    def train(self, env, max_episodes=100, max_steps=100):
+    def train(self, env, max_episodes=100, max_steps=100, show_intermediate=True):
         all_rewards, all_step_times = [], []
         for i_episode in range(max_episodes):
             env.reset()
@@ -39,7 +39,7 @@ class BaseAgent:
 
             all_rewards.append(np.sum(rewards))
             all_step_times.extend(step_times)
-            if i_episode % 100 == 0:
+            if i_episode % 100 == 0 and show_intermediate:
                 print('Episode: {}, Reward: {}, Avg_Step: {}'.format(i_episode + 1, all_rewards[-1],
                                                                      np.mean(step_times)))
             optimum_accomplished = self.evaluate_on_probes(env, max_steps)

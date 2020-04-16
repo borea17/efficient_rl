@@ -5,11 +5,11 @@ from efficient_rl.environment.classical_mdp import ClassicalTaxi
 from efficient_rl.environment.factored_mdp import FactoredTaxi
 from efficient_rl.environment.oo_mdp import OOTaxi
 
-
+# setup
+n_repetitions = 1
 max_episodes = 5000
 max_steps = 100
-n_repetitions = 100
-
+# initialization of agents and environments
 agent_names = ['Rmax', 'Factored Rmax', 'DOORmax', 'Q Learning',
                'Q Learning optimistic initalization']
 envs = [ClassicalTaxi(), FactoredTaxi(), OOTaxi(), ClassicalTaxi(), ClassicalTaxi()]
@@ -32,7 +32,8 @@ for agent, env, agent_name in zip(agents, envs, agent_names):
     all_step_times = []
     for i_rep in range(n_repetitions):  # repeat agent training n_repetitions times
         print('Start Agent: ', agent_name, ' current_repetition: ', i_rep + 1, '/', n_repetitions)
-        _, step_times = agent.train(env, max_episodes=max_episodes, max_steps=max_steps)
+        _, step_times = agent.train(env, max_episodes=max_episodes, max_steps=max_steps,
+                                    show_intermediate=False)
         print('steps total: {}, avg step time: {}'.format(len(step_times), np.mean(step_times)))
         agent.reset()
 
@@ -44,7 +45,8 @@ for agent, env, agent_name in zip(agents, envs, agent_names):
     statistics[agent_name] = {'avg steps total': len(all_step_times)/n_repetitions,
                               'avg step time': np.mean(all_step_times),
                               'avg total time': sum(all_step_times)/n_repetitions}
-print('\n')
+
+print('\n Dissertation results: \n')
 table = PrettyTable(['Agent', 'avg steps total', 'avg step time', 'avg total time'])
 for name_of_agent, data_agent in statistics.items():
     table.add_row([name_of_agent,
