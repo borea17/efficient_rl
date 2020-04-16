@@ -10,6 +10,10 @@ This is a Python *reimplementation* for the Taxi domain of
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuks Dissertation)
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/OORL.pdf) (Paper by C. Diuk et al.)
 
+<p align='center'>
+  <img src='gifs/example.gif' width='120' height='185.25'>
+</p> 
+
 -------------------------------------------------------------------------------------
 ### Motivation
 
