@@ -452,10 +452,9 @@ pip install efficient_rl
 
 #### Reproduce results
 
-After successful installation, go to cloned Git repository and run
+After successful installation, download `dissertation_script.py` and `paper_script.py` (which are in folder [efficient_rl](https://github.com/borea17/efficient_rl/tree/master/efficient_rl)), then run
 
 ```bash
-cd efficient_rl
 python dissertation_script.py 
 python paper_script.py
 ```
