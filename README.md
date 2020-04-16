@@ -236,7 +236,7 @@ approach which are listed below:
    and destination could be the same. The original definition by
    [Diettetrich](https://arxiv.org/abs/cs/9905014) states:
    
-   > To keep things uniform, the taxi must pick up and drop off the passenger even if he/she is already at the destination  
+   > To keep things uniform, the taxi must pick up and drop off the passenger even if he/she is already at the destination.  
    
    Therefore, in this reimplementation this was also possible during
    training. While the results for R<sub><font
