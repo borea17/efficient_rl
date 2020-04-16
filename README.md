@@ -432,7 +432,7 @@ The results were obtained on my lenovo thinkpad yoga 260 (i7-6500 CPU
 
 #### Installation
 
-##### Via Git
+##### Building from Source
 
 ```python
 git clone --depth 1 https://github.com/borea17/efficient_rl/
@@ -448,7 +448,7 @@ pip install efficient_rl
 
 #### Reproduce results
 
-After successful installatian *via git*
+After successful installation, go to cloned Git repository and run
 
 ```bash
 cd efficient_rl
