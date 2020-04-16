@@ -272,9 +272,9 @@ the differences in *Q-Learning* and the values in brackets, refer to
     <td>Q-learning</td>
     <td align="center"><b>106859</b></td>
     <td align="center">&lt; 1ms</td>
-    <td><b>117716</b></td>
-    <td>%lt; 1ms</td>
-    <td>4.3s</td>
+    <td align="center"><b>117716</b></td>
+    <td align="center">&lt; 1ms</td>
+    <td align="center">4.3s</td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
