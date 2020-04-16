@@ -190,20 +190,18 @@ is based on objects and their interactions, a state is presented as
 the union of all (object) attribute values. Additionally, each state
 has an attributed boolean vector describing which *relations* are
 enabled and which are not in that state. During a transition each
-attribute of the state may exert some kind of *effect* and result in
-attribute change. There are some limitations to the *effects* that can
+attribute of the state may exert some kind of *effect* which results in
+an attribute change. There are some limitations to the *effects* that can
 occur which are well explained in Diuks dissertation. The basic idea
 of DOOR<sub><font size="4">max</font></sub> is to recover the
 deterministic OO MDP using *condition-effect learners* (in these
 learners *conditions* are basically the relations that need to hold in
 order for an effect to occur).
-The paper results show that DOOR<sub><font size="4">max</font></sub>
-offers better generalization than Factored R<sub><font
-size="4">max</font></sub> which results from the property that
-DOOR<sub><font size="4">max</font></sub> is based on interactions
-between objects and therefore knowledge can much better transfer
-throughout the domain. Another feature is that the learned transition
-dynamics is much easier to interpret, e.g., DOOR<sub><font
+The paper results show that in DOOR<sub><font size="4">max</font></sub>
+knowledge can much better transfer throughout the domain compared to the
+other algorithms indicating that DOOR<sub><font size="4">max</font></sub>
+offers better generalization. Another feature is that the learned transition
+dynamics is easy to interpret, e.g., DOOR<sub><font
 size="4">max</font></sub> will learn that action *North* has the
 effect ot incrementing *taxi.y* by 1 when the relation
 *touch_north(taxi, wall)* outputs *False* and there wont be any change
