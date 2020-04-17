@@ -251,7 +251,7 @@ class TaxiEnvironment:
 
         # make sure that passenger and destination location differ
         location_idx = np.arange(len(self.PREDEFINED_LOCATIONS))
-        pass_i, dest_i = np.random.choice(location_idx, size=2, replace=False)
+        pass_i, dest_i = np.random.choice(location_idx, size=2, replace=True)
         pass_loc, dest_loc = self.PREDEFINED_LOCATIONS[pass_i], self.PREDEFINED_LOCATIONS[dest_i]
         taxi_loc = (np.random.randint(0, grid_size), np.random.randint(0, grid_size))
         x_wall, y_wall, position_wall = self.x_wall, self.y_wall, self.position_wall

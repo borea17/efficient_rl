@@ -46,6 +46,9 @@ def compare_agent(agent_name):
 
             all_step_times.extend(step_times)
 
+        print(' # steps', len(all_step_times)/n_repetitions)
+        print(' Time/step', np.mean(all_step_times))
+
         current_statistics[env_name + ' #steps'] = len(all_step_times)/n_repetitions
         current_statistics[env_name + ' Time/step'] = np.mean(all_step_times)
     return current_statistics
