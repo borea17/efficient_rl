@@ -343,7 +343,7 @@ The results were obtained on my lenovo thinkpad yoga 260 (i7-6500 CPU
 
 The paper results align with the reimplementation results.
 
-The results were obtained on a cluster from which I do not know the CPU specifics (this is not too important since the focus lies on the comparison). Note that Diuk et al. also used a more powerful machine for the paper result: the average step times are notably smaller compared to the dissertation result. 
+The results were obtained on a cluster from which I do not know the CPU specifics (this is not too important since the focus lies on the comparison). Note that Diuk et al. also used a more powerful machine for the paper result: the average step times are notably smaller compared to the dissertation results. 
 
 <table>
   <tr>
@@ -389,7 +389,7 @@ The results were obtained on a cluster from which I do not know the CPU specific
     <td align="center">&nbsp;<br>529<br>13.88ms</td>
     <td align="center">&nbsp;<br>821<br>293.72ms</td>
     <td align="center">&nbsp;<br><b>1.55</b><br>21.16</td>
-    <td align="center">&nbsp;<br>418<br>37.1ms</td>
+    <td align="center">&nbsp;<br>466<br>23.61ms</td>
     <td align="center">&nbsp;<br>949<br>320.6ms</td>
     <td align="center"></td>
   </tr>
