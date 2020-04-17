@@ -244,7 +244,7 @@ approach which are listed below:
    the same setting, there is a discrepancy for Q-learning. When the
    setting was changed such that passenger start and destination could
    not be the same (these are the results in brackets), similar results to Diuk could be obtained.
-3) Some implementation details such as the update procedure
+3) Some implementation details are different such as the update procedure
    of the empirical transition and reward functions or the
    condition-effect-learners which were not well enough documented or
    which did not fit into the reimplementation structure.
@@ -340,6 +340,10 @@ The results were obtained on my lenovo thinkpad yoga 260 (i7-6500 CPU
 </table>
 
 #### Paper Results (p.7)
+
+The paper results align with the reimplementation results.
+
+The results were obtained on a cluster from which I do not know the CPU specifics (this is not too important since the focus lies on the comparison). Note that Diuk et al. also used a more powerful machine for the paper result: the average step times are notably smaller compared to the dissertation result. 
 
 <table>
   <tr>
