@@ -366,44 +366,6 @@ The results were obtained on my lenovo thinkpad yoga 260 (i7-6500 CPU
     <td align="center">14.40</td>
   </tr>
   <tr>
-    <td>Q-learning<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# steps<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time per step</td>
-    <td align="center">
-      &nbsp;<br>NA<br>&nbsp;
-    </td>
-    <td align="center">
-      &nbsp;<br>NA<br>&nbsp;</td>
-    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
-    <td align="center"></td>
-    <td align="center"></td>
-    <td align="center"></td>
-  </tr>
-  <tr>
-    <td>Q-learning - optimistic initialization<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# steps<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time per step</td>
-    </td>
-    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
-    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
-    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><i>R</i><sub><font size="4">max</font></sub><br> 
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# steps<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time per step</td>
-     </td>
-    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
-    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
-    <td align="center">&nbsp;<br>NA<br>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
     <td>Factored <i>R</i><sub><font size="4">max</font></sub><br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# steps<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time per step</td>

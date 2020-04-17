@@ -1,5 +1,5 @@
 from prettytable import PrettyTable
-from efficient_rl.agents import Rmax, FactoredRmax, DOORmax, QLearning
+from efficient_rl.agents import FactoredRmax, DOORmax
 from efficient_rl.environment import TaxiEnvironment
 import numpy as np
 
@@ -8,18 +8,13 @@ n_repetitions = 1
 max_episodes = 100000
 max_steps = 100
 agents_to_compare = [
-    # 'Q Learning - optimistic initialization',
-    # 'Rmax',
     'Factored Rmax',
     'DOORmax'
 ]
 
 
 def compare_agent(agent_name):
-    if agent_name in ['Q Learning - optimistic initialization', 'Rmax']:
-        envs = [TaxiEnvironment(grid_size=5, mode='classical MDP'),
-                TaxiEnvironment(grid_size=10, mode='classical MDP')]
-    elif agent_name == 'Factored Rmax':
+    if agent_name == 'Factored Rmax':
         envs = [TaxiEnvironment(grid_size=5, mode='factored MDP'),
                 TaxiEnvironment(grid_size=10, mode='factored MDP')]
     elif agent_name == 'DOORmax':
@@ -32,13 +27,7 @@ def compare_agent(agent_name):
 
     current_statistics = {}
     for env, env_name in zip(envs, ['Taxi 5x5', 'Taxi 10x10']):
-        if agent_name == 'Q Learning - optimistic initialization':
-            agent = QLearning(nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, alpha=1, epsilon=0,
-                              optimistic_init=True, env_name='Taxi')
-        elif agent_name == 'Rmax':
-            agent = Rmax(M=1, nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, delta=0.1,
-                         env_name='Taxi')
-        elif agent_name == 'Factored Rmax':
+        if agent_name == 'Factored Rmax':
             agent = FactoredRmax(M=1, nS_per_var=env.num_states_per_var, nA=env.nA, r_max=env.r_max,
                                  gamma=0.95, delta=0.1, DBNs=env.DBNs,
                                  factored_mdp_dict=env.factored_mdp_dict, env_name='Taxi')
@@ -52,6 +41,9 @@ def compare_agent(agent_name):
         for i_rep in range(n_repetitions):
             print('   current repetition: ', i_rep + 1, '/', n_repetitions)
             _, step_times = agent.train(env, max_episodes=max_episodes, max_steps=max_steps)
+
+            agent.reset()
+
             all_step_times.extend(step_times)
 
         current_statistics[env_name + ' #steps'] = len(all_step_times)/n_repetitions
