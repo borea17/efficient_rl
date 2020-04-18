@@ -2,6 +2,7 @@ import numpy as np
 from efficient_rl.oo_mdp_operations import Operations as oo_mdp_OP
 from efficient_rl.environment.oo_mdp import TaxiRelations as Rel
 from gym import utils
+from gym.utils import seeding
 
 
 class TaxiEnvironment:
@@ -243,17 +244,16 @@ class TaxiEnvironment:
                             oo_mdp_dict['flat_to_oo_mdp_map'][flat_state].append(state_cond)
         return oo_mdp_dict
 
-    def reset(self, SEED=None):
-        if SEED is not None:
-            np.random.seed(SEED)
+    def reset(self):
+        rng, seed = seeding.np_random()
 
         grid_size = self.grid_size
 
-        # make sure that passenger and destination location differ
-        location_idx = np.arange(len(self.PREDEFINED_LOCATIONS))
-        pass_i, dest_i = np.random.choice(location_idx, size=2, replace=True)
+        n_locs = len(self.PREDEFINED_LOCATIONS)
+
+        pass_i, dest_i = rng.randint(0, n_locs), rng.randint(0, n_locs)
         pass_loc, dest_loc = self.PREDEFINED_LOCATIONS[pass_i], self.PREDEFINED_LOCATIONS[dest_i]
-        taxi_loc = (np.random.randint(0, grid_size), np.random.randint(0, grid_size))
+        taxi_loc = (rng.randint(0, grid_size), rng.randint(0, grid_size))
         x_wall, y_wall, position_wall = self.x_wall, self.y_wall, self.position_wall
 
         self.objs['taxi']['x'], self.objs['taxi']['y'] = taxi_loc[0], taxi_loc[1]

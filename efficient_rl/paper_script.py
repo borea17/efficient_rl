@@ -8,8 +8,8 @@ n_repetitions = 1
 max_episodes = 100000
 max_steps = 100
 agents_to_compare = [
-    'Factored Rmax',
-    'DOORmax'
+   'Factored Rmax',
+   'DOORmax'
 ]
 
 
@@ -32,9 +32,9 @@ def compare_agent(agent_name):
                                  gamma=0.95, delta=0.1, DBNs=env.DBNs,
                                  factored_mdp_dict=env.factored_mdp_dict, env_name='Taxi')
         elif agent_name == 'DOORmax':
-            agent = DOORmax(nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, delta=0.1, k=3,
+            agent = DOORmax(nS=env.nS, nA=env.nA, r_max=env.r_max, gamma=0.95, delta=0.1, k=5,
                             num_atts=env.num_atts, oo_mdp_dict=env.oo_mdp_dict, env_name='Taxi',
-                            eff_types=['assignment', 'addition', 'multiplication'])
+                            eff_types=['assignment', 'addition'])
 
         print(' start with', env_name)
         all_step_times = []
@@ -45,9 +45,11 @@ def compare_agent(agent_name):
             agent.reset()
 
             all_step_times.extend(step_times)
+            print(' current avg # steps', len(all_step_times)/(i_rep + 1))
+            print(' current avg Time/step', np.mean(all_step_times))
 
-        print(' # steps', len(all_step_times)/n_repetitions)
-        print(' Time/step', np.mean(all_step_times))
+        print(' avg # steps', len(all_step_times)/n_repetitions)
+        print(' avg Time/step', np.mean(all_step_times))
 
         current_statistics[env_name + ' #steps'] = len(all_step_times)/n_repetitions
         current_statistics[env_name + ' Time/step'] = np.mean(all_step_times)

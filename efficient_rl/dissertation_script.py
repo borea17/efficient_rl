@@ -18,8 +18,8 @@ agents = [Rmax(M=1, nS=500, nA=6, r_max=20, gamma=0.95, delta=0.01, env_name='gy
                        delta=0.01, DBNs=envs[1].DBNs, factored_mdp_dict=envs[1].factored_mdp_dict,
                        env_name='gym-Taxi'),
           DOORmax(nS=500, nA=6, r_max=20, gamma=0.95, delta=0.01,
-                  env_name='gym-Taxi', k=3, num_atts=envs[2].num_atts,
-                  eff_types=['multiplication', 'assignment', 'addition'],
+                  env_name='gym-Taxi', k=5, num_atts=envs[2].num_atts,
+                  eff_types=['assignment', 'addition'],
                   oo_mdp_dict=envs[2].oo_mdp_dict),
           QLearning(nS=500, nA=6, gamma=0.95, alpha=0.1, epsilon=0.6,
                     optimistic_init=False, env_name='gym-Taxi'),  # alpha/epsilon p.33/34 Diuks Diss
