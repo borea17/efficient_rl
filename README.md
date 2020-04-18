@@ -37,7 +37,7 @@ Motivated by human intelligence, Diuk et al. introduce a new
 framework *propositional object-oriented MDPs* (OO-MDPs) to model
 environments and their dynamics. As it turns out, humans are way more
 sample-efficient than state-of-the-art algorithms when playing games 
-such as taxi (Diuk actually performed an experiment). Diuk argues that 
+such as Taxi (Diuk actually performed an experiment). Diuk argues that 
 humans must use some prior knowledge when playing this game, he
 further speculates that this knowledge might come in form of object
 representations, e.g., identifying horizontal lines as *walls* when 
