@@ -7,7 +7,7 @@
 
 This is a Python *reimplementation* for the Taxi domain of 
 
-* [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuks Dissertation)
+* [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuk's Dissertation)
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/OORL.pdf) (Paper by C. Diuk et al.)
 
 <table>
@@ -203,7 +203,7 @@ has an attributed boolean vector describing which *relations* are
 enabled and which are not in that state. During a transition each
 attribute of the state may exert some kind of *effect* which results in
 an attribute change. There are some limitations to the *effects* that can
-occur which are well explained in Diuks dissertation. The basic idea
+occur which are well explained in Diuk's dissertation. The basic idea
 of DOOR<sub><font size="4">max</font></sub> is to recover the
 deterministic OO MDP using *condition-effect learners* (in these
 learners *conditions* are basically the relations that need to hold in
@@ -232,14 +232,14 @@ trials, each algorithm runs 100 times and the results are then averaged.
 
 #### Differences between Reimplementation and Diuk
 
-There are some differences between this reimplementation and Diuks
+There are some differences between this reimplementation and Diuk's
 approach which are listed below:
 
 1) For educational purposes, the reward function is also learned in
    this reimplementation (always in the simplest possible way). Note that Diuk mainly focused on learning the
    transition model:
    > I will focus on learning dynamics and assume the reward function is available as a black box function.
-2) It is unknwon whether in Diuks setting during training the passenger start location
+2) It is unknwon whether in Diuk's setting during training the passenger start location
    and destination could be the same. The original definition by
    [Diettetrich](https://arxiv.org/abs/cs/9905014) states:
    
@@ -270,7 +270,7 @@ The results were obtained on a lenovo thinkpad yoga 260 (i7-6500 CPU
   <tr>
     <th>Domain knowledge</th>
     <th>Algorithm</th>
-    <th colspan="2">Diuks Results<br></th>
+    <th colspan="2">Diuk's Results<br></th>
     <th colspan="3">Reimplementation Results</th>
   </tr>
   <tr>
@@ -356,7 +356,7 @@ The results were obtained on a cluster from which I do not know the CPU specific
 <table>
   <tr>
     <th></th>
-    <th colspan="3">Diuks Result</th>
+    <th colspan="3">Diuk's Result</th>
     <th colspan="3">Reimplementation Results</th>
   </tr>
   <tr>
