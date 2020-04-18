@@ -10,9 +10,17 @@ This is a Python *reimplementation* for the Taxi domain of
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/Thesis.pdf) (C. Diuks Dissertation)
 * [An Object-Oriented Representation for Efficient Reinforcement Learning](http://carlosdiuk.github.io/papers/OORL.pdf) (Paper by C. Diuk et al.)
 
-<p align='center'>
-  <img src='gifs/example.gif' width='120' height='185.25'>
-</p> 
+<table>
+<tbody>
+<tr>
+  <td>In the <i>Taxi domain</i> the goal is to navigate the <i>taxi</i> (initially yellow box) towards<br>
+    the <i>passenger</i> (blue letter), take a <i>Pickup</i> action and then deliver the <i>taxi with<br>passenger inside</i> (green box) towards the <i>destination</i> (magenta letter) and perform <br> a <i>Dropoff</i> action. A reward of -1 is obtained for every time step it takes until delivery. <br>Successful <i>Dropoff</i> results in +20 reward, while non-successful <i>Dropoff</i> or <i>Pickup</i> is<br> penalized with -10. 
+    This task was introduced by <a href="https://arxiv.org/abs/cs/9905014">Dietterich</a>.
+ </td>
+  <td><img src='gifs/example.gif' width='120' height='185.25'></td>
+</tr>
+</tbody>
+</table>
 
 -------------------------------------------------------------------------------------
 ### Motivation
