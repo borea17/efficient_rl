@@ -107,7 +107,7 @@ by accumulating experience. Then, an optimal action-value
 function (or value function or policy) is obtained through *planning*. Planning
 can be done exactly or approximately. In the experiments, Diuk et al.
 use exact planning, more precisely *value iteration*. The difference
-between the three algorithms lies in the way they learn the
+between the following three algorithms lies in the way they learn the
 environment dynamics.
 
 ##### R<sub><font size="4">max</font></sub>
@@ -171,8 +171,7 @@ y)* start passenger locations plus whether the passenger is *in
 taxi*.) This representation allows to represent partial dependency
 relations for the environment dynamics between variables using
 *Dynamic Bayesian Networks (DBNs)*. E.g., for action *North* we know
-that for the transition dynamics each state variable at time time
-*t+1* only depends on its own value at time *t*, i.e., the *x
+that each state variable at time *t+1* only depends on its own value at time *t*, i.e., the *x
 location* at time *t+1* under action *North* is independent of the *y
 location*, *passenger location* and *passenger destination* at time
 *t*. This knowledge is encoded in a *DBN* (each action may have a
@@ -182,7 +181,7 @@ The downside of this approach is that this kind of prior knowledge may not
 be available and that it lacks some generalization, e.g., although
 Factored R<sub><font size="4">max</font></sub> knows that the *x location* is independent of all other state
 variables, Factored R<sub><font size="4">max</font></sub> still needs
-to perfom action *north* at each *x location* to learn the outcome.
+to perfom action *North* at each *x location* to learn the outcome.
 
 
 ##### DOOR<sub><font size="4">max</font></sub>
@@ -217,7 +216,7 @@ in *taxi.y* if *touch_north(taxi, wall)* outputs *True*.
 
 #### Experimental Setup 
 
-The experimental setup is described on p.31 of Diuks Dissertation or
+The experimental setup is described on p.31 of Diuk's Dissertation or
 p.7 of the paper. It consists of testing against six probe states and reporting the number
 of steps the agent had to take until the optimal policy for these 6
 start states was reached. Since there is some randomness in the
@@ -255,7 +254,7 @@ The dissertation results align with the reimplementation results. For
 the differences in *Q-Learning* and the values in brackets, refer to
 2) of [Differences between Reimplementation and Diuk](https://github.com/borea17/efficient_rl/#differences-between-reimplementation-and-diuk).
 
-The results were obtained on my lenovo thinkpad yoga 260 (i7-6500 CPU
+The results were obtained on a lenovo thinkpad yoga 260 (i7-6500 CPU
 @ 2.50 GHz x 4).
 
 <table>
