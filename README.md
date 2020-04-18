@@ -145,12 +145,12 @@ any domain knowledge (except for the maximum possible reward
 number of states *|S|*, the number of actions *|A|*), the states are
 simply enumerated and the agent will
 not be able to transfer knowledge throughout the domain. E.g.,
-assume the agent performs an action *north* at some location on the
+assume the agent performs an action *North* at some location on the
 grid and learns the state transition (more precisely it would learn
 something like *picking action 1 at state 200 results in ending up in
 state 220*). Being at the same location but with a different *passenger location* or *destination
 location* the agent will not be able to predict the outcome of action
-*north*. It will take the agent at least 3000 (*|S| &middot; |A|*)
+*North*. It will take the agent at least 3000 (*|S| &middot; |A|*)
 steps until it has fully learned the 5x5 taxi transition dynamics.
 Furthermore, the learned transition and reward dynamics are rather
 difficult to interpret.
