@@ -159,7 +159,7 @@ something like *picking action 1 at state 200 results in ending up in
 state 220*). Being at the same location but with a different *passenger location* or *destination
 location* the agent will not be able to predict the outcome of action
 *North*. It will take the agent at least 3000 (*|S| &middot; |A|*)
-steps until it has fully learned the 5x5 taxi transition dynamics.
+steps until it has fully learned the 5x5 Taxi transition dynamics.
 Furthermore, the learned transition and reward dynamics are rather
 difficult to interpret.
 To address this shortcoming, the agent needs a different
