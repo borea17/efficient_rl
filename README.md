@@ -22,7 +22,7 @@ model-based approaches (e.g., <i>R</i><sub><font
 size="4">max</font></sub>) are more sample-efficient than model-free
 algorithms (e.g., <i>Q-learning</i>). One of the main reasons may be
 that model-based learning tackles the exploration-exploitation dilemma
-in a smarter way by using the accumulated experience to bui ld an
+in a smarter way by using the accumulated experience to build an
 approximate model of the environment. Furthermore, it has been 
 shown that rich state representations such as in a *factored MDP* can
 make model-based learning even more sample-efficient. *Factored MDP*s
@@ -40,7 +40,7 @@ sample-efficient than state-of-the-art algorithms when playing games
 such as taxi (Diuk actually performed an experiment). Diuk argues that 
 humans must use some prior knowledge when playing this game, he
 further speculates that this knowledge might come in form of object
-represetations, e.g., identifying horizontal lines as *walls* when 
+representations, e.g., identifying horizontal lines as *walls* when 
 observing that the taxi cannot move through them. 
 
 Diuk et al. provide a learning algorithm for deterministic
@@ -91,12 +91,12 @@ Diuk uses two variants of Q-learning:
 * **Q-learning**: standard Q-learning approach with &epsi;-greedy
   exploration where parameters &alpha;=0.1 and &epsi;=0.6 have been
   found via parameter search.
-* **Q-learning with optimistic initialization**: instead of a some
+* **Q-learning with optimistic initialization**: instead of some
   random initialization of the Q-table a smart initialization to an
   optimistic value (maximum possible value of any state action pair 
   <img
   src="https://render.githubusercontent.com/render/math?math=v_{max}">)
-  is used. Thereby unvisited state-action pairs become more like to be
+  is used. Thereby unvisited state-action pairs become more likely to be
   visited. Here, &alpha; was is to 1 (deterministic environment) and
   &epsi; to 0 (exploration ensured via initialization).
 
@@ -118,7 +118,7 @@ dilemma through an intuitive approach: R<sub><font
 size="4">max</font></sub> divides state-action pairs into *known*
 (state-action pairs which have been visited often enough to build an
 accurate transition/reward function) and *unknown*. Whenever a state
-is *known*, the algorithm uses the empiriical transition and reward
+is *known*, the algorithm uses the empirical transition and reward
 function for planning. In case a state is *unknown*,  R<sub><font
 size="4">max</font></sub> assumes a transition to a fictious state
 from which maximum reward can be obtained consistently (hence the name) and it uses
