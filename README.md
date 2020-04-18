@@ -258,8 +258,9 @@ approach which are listed below:
 
 #### Dissertation Results (p.49)
 
-The dissertation results align with the reimplementation results. For
-the differences in *Q-Learning* and the values in brackets, refer to
+The dissertation results align with the reimplementation results. Clearly, DOOR<sub><font size="4">max</font></sub> outperfroms the other algorithms in terms of sample-efficiency.
+
+For the differences in *Q-Learning* and the values in brackets, refer to
 2) of [Differences between Reimplementation and Diuk](https://github.com/borea17/efficient_rl/#differences-between-reimplementation-and-diuk).
 
 The results were obtained on a lenovo thinkpad yoga 260 (i7-6500 CPU
@@ -348,7 +349,7 @@ The results were obtained on a lenovo thinkpad yoga 260 (i7-6500 CPU
 
 #### Paper Results (p.7)
 
-The paper results align with the reimplementation results.
+The paper results align with the reimplementation results. These results show that DOOR<sub><font size="4">max</font></sub>  not only outperforms Factored R<sub><font size="4">max</font></sub> in terms of sample-efficiency, but also scales much better to larger problems. Note that the number of states increases by a factor of more than 14 times. 
 
 The results were obtained on a cluster from which I do not know the CPU specifics (this is not too important since the focus lies on the comparison). Note that Diuk et al. also used a more powerful machine for the paper result: the average step times are notably smaller compared to the dissertation results. 
 
