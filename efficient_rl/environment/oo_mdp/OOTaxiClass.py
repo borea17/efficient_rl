@@ -1,5 +1,6 @@
 import gym
 import numpy as np
+from gym.utils import seeding
 
 
 class OOTaxi:
@@ -122,13 +123,15 @@ class OOTaxi:
             in gym reset, passenger location and destination location are never the same,
             in original of Diettrich this is possible
         """
+        rng, seed = seeding.np_random()
+
         taxi_locs = [0, 1, 2, 3, 4]
         pass_dest_locs = [0, 1, 2, 3]
         self.passenger_picked_up = False
 
-        taxi_row, taxi_colum = np.random.choice(taxi_locs, size=2, replace=True)
-        pass_loc, dest_loc = np.random.choice(pass_dest_locs, size=2, replace=self.replace)
-        self.env.s = self.env.encode(taxi_row, taxi_colum, pass_loc, dest_loc)
+        taxi_row, taxi_column = rng.choice(taxi_locs, size=2, replace=True)
+        pass_loc, dest_loc = rng.choice(pass_dest_locs, size=2, replace=self.replace)
+        self.env.s = self.env.encode(taxi_row, taxi_column, pass_loc, dest_loc)
         self.s = self.convert_gym_state_into_OO_MDP_state()
         return self.s
 

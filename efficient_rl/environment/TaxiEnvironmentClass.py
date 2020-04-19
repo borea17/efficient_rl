@@ -1,8 +1,7 @@
 import numpy as np
 from efficient_rl.oo_mdp_operations import Operations as oo_mdp_OP
 from efficient_rl.environment.oo_mdp import TaxiRelations as Rel
-from gym import utils
-from gym.utils import seeding
+from gym.utils import seeding, colorize
 
 
 class TaxiEnvironment:
@@ -365,15 +364,15 @@ class TaxiEnvironment:
                     row_string[loc[0]*2 + 1] = self.POSITION_NAMES[counter]
             if row == taxi_y:
                 if not in_taxi:
-                    row_string[taxi_x*2 + 1] = utils.colorize(' ', 'yellow', highlight=True)
+                    row_string[taxi_x*2 + 1] = colorize(' ', 'yellow', highlight=True)
                 else:
-                    row_string[taxi_x*2 + 1] = utils.colorize(' ', 'green', highlight=True)
+                    row_string[taxi_x*2 + 1] = colorize(' ', 'green', highlight=True)
             if row == pass_y and not in_taxi:
                 letter = row_string[pass_x*2 + 1]
-                row_string[pass_x*2 + 1] = utils.colorize(letter, 'blue', bold=True)
+                row_string[pass_x*2 + 1] = colorize(letter, 'blue', bold=True)
             if row == dest_y:
                 letter = row_string[dest_x*2 + 1]
-                row_string[dest_x*2 + 1] = utils.colorize(letter, 'magenta')
+                row_string[dest_x*2 + 1] = colorize(letter, 'magenta')
             if self.grid_size == 5:
                 for wall_obj_x, wall_obj_y in zip(wall_x_l[-6:], wall_y_l[-6:]):
                     if row == wall_obj_y:
