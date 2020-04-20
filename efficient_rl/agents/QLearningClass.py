@@ -13,7 +13,7 @@ class QLearning(BaseAgent):
             self.r_max = r_max
             self.Q_table = (r_max/(1-self.gamma)) * np.ones([nS, nA])
         else:
-            self.Q_table = np.zeros([nS, nA])
+            self.Q_table = np.random.rand(nS, nA)
         self.alpha = alpha
         self.epsilon = epsilon
         return
@@ -58,5 +58,5 @@ class QLearning(BaseAgent):
             r_max = self.r_max
             self.Q_table = (r_max/(1-self.gamma)) * np.ones([num_states, num_actions])
         else:
-            self.Q_table = np.zeros([num_states, num_actions])
+            self.Q_table = np.random.rand(num_states, num_actions)
         return
