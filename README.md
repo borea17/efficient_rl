@@ -258,7 +258,7 @@ approach which are listed below:
 
 #### Dissertation Results (p.49)
 
-The dissertation results align with the reimplementation results. Clearly, DOOR<sub><font size="4">max</font></sub> outperfroms the other algorithms in terms of sample-efficiency.
+The dissertation results align with the reimplementation results. Clearly, DOOR<sub><font size="4">max</font></sub> outperforms the other algorithms in terms of sample-efficiency.
 
 For the differences in *Q-Learning* and the values in brackets, refer to
 2) of [Differences between Reimplementation and Diuk](https://github.com/borea17/efficient_rl/#differences-between-reimplementation-and-diuk).
@@ -286,19 +286,19 @@ The results were obtained on a lenovo thinkpad yoga 260 (i7-6500 CPU
     <td>|<i>S</i>|, |<i>A</i>|<br></td>
     <td>Q-learning</td>
     <td align="center"><b>106859</b></td>
-    <td align="center">&lt; 1ms</td>
-    <td align="center"><b>117828</b><br>(118329)</td>
+    <td align="center">&lt;1ms</td>
+    <td align="center"><b>120148</b><br>(119941)</td>
     <td align="center">&lt;1ms<br>(&lt;1ms)</td>
-    <td align="center">4.4s<br>(4.5s)</td>
+    <td align="center">4.9s<br>(4.9s)</td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
     <td>Q-learning - optimistic <br>initialization</td>
     <td align="center"><b>29350</b></td>
     <td align="center">&lt;1ms</td>
-    <td align="center"><b>75255</b><br>(28154)</td>
+    <td align="center"><b>75289</b><br>(28989)</td>
     <td align="center">&lt;1ms<br>(&lt;1ms)</td>
-    <td align="center">3.8s<br>(1.5s)</td>
+    <td align="center">4.2s<br>(1.7s)</td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
