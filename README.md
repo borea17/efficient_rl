@@ -287,25 +287,25 @@ The results were obtained on a lenovo thinkpad yoga 260 (i7-6500 CPU
     <td>Q-learning</td>
     <td align="center"><b>106859</b></td>
     <td align="center">&lt; 1ms</td>
-    <td align="center"><b>117716</b><br>(118329)</td>
+    <td align="center"><b>117828</b><br>(118329)</td>
     <td align="center">&lt;1ms<br>(&lt;1ms)</td>
-    <td align="center">4.3s<br>(4.5s)</td>
+    <td align="center">4.4s<br>(4.5s)</td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
     <td>Q-learning - optimistic <br>initialization</td>
     <td align="center"><b>29350</b></td>
     <td align="center">&lt;1ms</td>
-    <td align="center"><b>75219</b><br>(28154)</td>
+    <td align="center"><b>75255</b><br>(28154)</td>
     <td align="center">&lt;1ms<br>(&lt;1ms)</td>
-    <td align="center">3.7s<br>(1.5s)</td>
+    <td align="center">3.8s<br>(1.5s)</td>
   </tr>
   <tr>
     <td>|<i>S</i>|, |<i>A</i>|, <i>R</i><sub><font size="4">max</font></sub></td>
     <td><i>R</i><sub><font size="4">max</font></sub></td>
     <td align="center"><b>4151</b></td>
     <td align="center">74ms</td>
-    <td align="center"><b>4087</b></td>
+    <td align="center"><b>4080</b></td>
     <td align="center">2.9ms</td>
     <td align="center">11.8s</td>
   </tr>
@@ -314,18 +314,18 @@ The results were obtained on a lenovo thinkpad yoga 260 (i7-6500 CPU
     <td>Factored <i>R</i><sub><font size="4">max</font></sub></td>
     <td align="center"><b>1676</b></td>
     <td align="center">97.7ms</td>
-    <td align="center"><b>1718</b></td>
+    <td align="center"><b>1686</b></td>
     <td align="center">30ms</td>
-    <td align="center">51.6s</td>
+    <td align="center">51.4s</td>
   </tr>
   <tr>
     <td>Objects, relations to consider,<br><i>R</i><sub><font size="4">max</font></sub></td>
     <td>DOO<i>R</i><sub><font size="4">max</font></sub></td>
     <td align="center"><b>529</b></td>
     <td align="center">48.2ms</td>
-    <td align="center"><b>483</b></td>
-    <td align="center">34.3ms</td>
-    <td align="center">16.5s</td>
+    <td align="center"><b>498</b></td>
+    <td align="center">36ms</td>
+    <td align="center">17.9s</td>
   </tr>
   <tr>
     <td>|<i>A</i>|, visualization of game</td>
