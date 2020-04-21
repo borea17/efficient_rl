@@ -385,9 +385,9 @@ The results were obtained on a cluster from which I do not know the CPU specific
     <td align="center">&nbsp;<br>1676<br>43.59ms</td>
     <td align="center">&nbsp;<br>19866<br>306.71ms</td>
     <td align="center">&nbsp;<br>11.85<br>7.03</td>
-    <td align="center">&nbsp;<br>1589<br>23.7ms</td>
-    <td align="center">&nbsp;<br>16274<br>442.7ms</td>
-    <td align="center"></td>
+    <td align="center">&nbsp;<br>1687<br>24.61ms</td>
+    <td align="center">&nbsp;<br>21868<br>1.02s</td>
+    <td align="center">12.96<br>41.45</td>
   </tr>
   <tr>
     <td>DOO<i>R</i><sub><font size="4">max</font></sub><br>
@@ -397,9 +397,9 @@ The results were obtained on a cluster from which I do not know the CPU specific
     <td align="center">&nbsp;<br>529<br>13.88ms</td>
     <td align="center">&nbsp;<br>821<br>293.72ms</td>
     <td align="center">&nbsp;<br><b>1.55</b><br>21.16</td>
-    <td align="center">&nbsp;<br>452<br>27.45ms</td>
-    <td align="center">&nbsp;<br>949<br>320.6ms</td>
-    <td align="center"></td>
+    <td align="center">&nbsp;<br>502<br>22.12ms</td>
+    <td align="center">&nbsp;<br>1086<br>1.22s</td>
+    <td align="center"><b>2.16</b><br>55.15</td>
   </tr>
 </table>
 
