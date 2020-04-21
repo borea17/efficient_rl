@@ -315,7 +315,7 @@ The results were obtained on a lenovo thinkpad yoga 260 (i7-6500 CPU
     <td align="center"><b>1676</b></td>
     <td align="center">97.7ms</td>
     <td align="center"><b>1686</b></td>
-    <td align="center">30ms</td>
+    <td align="center">30.5ms</td>
     <td align="center">51.4s</td>
   </tr>
   <tr>
