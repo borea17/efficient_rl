@@ -12,7 +12,7 @@ INSTALL_REQUIRES = [
 
 setup(
     name='efficient_rl',
-    version='1.0',
+    version='1.0.1',
     license='MIT',
     description='Reimplementation of Diuks "object-oriented representation for efficient RL".',
     author='Markus Borea',
