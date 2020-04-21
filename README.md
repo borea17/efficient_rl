@@ -387,7 +387,7 @@ The results were obtained on a cluster from which I do not know the CPU specific
     <td align="center">&nbsp;<br>11.85<br>7.03</td>
     <td align="center">&nbsp;<br>1687<br>24.61ms</td>
     <td align="center">&nbsp;<br>21868<br>1.02s</td>
-    <td align="center">12.96<br>41.45</td>
+    <td align="center"><br>12.96<br>41.45</td>
   </tr>
   <tr>
     <td>DOO<i>R</i><sub><font size="4">max</font></sub><br>
@@ -399,7 +399,7 @@ The results were obtained on a cluster from which I do not know the CPU specific
     <td align="center">&nbsp;<br><b>1.55</b><br>21.16</td>
     <td align="center">&nbsp;<br>502<br>22.12ms</td>
     <td align="center">&nbsp;<br>1086<br>1.22s</td>
-    <td align="center"><b>2.16</b><br>55.15</td>
+    <td align="center"><br><b>2.16</b><br>55.15</td>
   </tr>
 </table>
 
