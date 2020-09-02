@@ -349,7 +349,7 @@ The results were obtained on a lenovo thinkpad yoga 260 (i7-6500 CPU
 
 #### Paper Results (p.7)
 
-The paper results align with the reimplementation results. These results show that DOOR<sub><font size="4">max</font></sub>  not only outperforms Factored R<sub><font size="4">max</font></sub> in terms of sample-efficiency, but also scales much better to larger problems. Note that the number of states increases by a factor of more than 14 times. 
+The paper results align with the reimplementation results. These results show that DOOR<sub><font size="4">max</font></sub>  not only outperforms Factored R<sub><font size="4">max</font></sub> in terms of sample-efficiency, but also scales much better to larger problems. Note that the number of states increases by a factor of more than 14. 
 
 The results were obtained on a cluster from which I do not know the CPU specifics (this is not too important since the focus lies on the comparison). Note that Diuk et al. used a more powerful machine for the paper result: the average step times are notably smaller compared to the dissertation results. 
 
